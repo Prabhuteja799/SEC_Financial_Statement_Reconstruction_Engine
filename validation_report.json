@@ -1,0 +1,321 @@
+{
+  "adsh": "0001628280-24-043777",
+  "statements": {
+    "BS": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 38,
+        "rows_reconstructed": 38,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 7,
+        "rows": [
+          {
+            "line": 4,
+            "tag": "AccountsReceivableNetCurrent",
+            "candidate_count": 4
+          },
+          {
+            "line": 11,
+            "tag": "Goodwill",
+            "candidate_count": 3
+          },
+          {
+            "line": 14,
+            "tag": "Assets",
+            "candidate_count": 5
+          },
+          {
+            "line": 32,
+            "tag": "AccumulatedOtherComprehensiveIncomeLossNetOfTax",
+            "candidate_count": 4
+          },
+          {
+            "line": 35,
+            "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest",
+            "candidate_count": 7
+          },
+          {
+            "line": 1,
+            "tag": "AllowanceForDoubtfulAccountsReceivableCurrent",
+            "candidate_count": 4
+          },
+          {
+            "line": 7,
+            "tag": "CommonStockSharesIssued",
+            "candidate_count": 2
+          }
+        ]
+      },
+      "coverage": {
+        "stmt": "BS",
+        "rows_total": 38,
+        "rows_with_values": 37,
+        "rows_missing_values": 1,
+        "coverage_ratio": 0.9736842105263158,
+        "missing_tags": [
+          "CommitmentsAndContingencies"
+        ],
+        "expected_missing_tags": [
+          "CommitmentsAndContingencies"
+        ],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240930",
+            "qtrs": 0
+          }
+        ]
+      },
+      "subtotal_checks": [
+        {
+          "name": "assets_equals_liabilities_and_equity",
+          "passed": true,
+          "delta": 0.0
+        }
+      ]
+    },
+    "IS": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 29,
+        "rows_reconstructed": 29,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 5,
+        "rows": [
+          {
+            "line": 1,
+            "tag": "Revenues",
+            "candidate_count": 4
+          },
+          {
+            "line": 10,
+            "tag": "OperatingIncomeLoss",
+            "candidate_count": 5
+          },
+          {
+            "line": 17,
+            "tag": "ProfitLoss",
+            "candidate_count": 4
+          },
+          {
+            "line": 25,
+            "tag": "ProfitLoss",
+            "candidate_count": 4
+          },
+          {
+            "line": 29,
+            "tag": "OtherComprehensiveIncomeLossNetOfTax",
+            "candidate_count": 3
+          }
+        ]
+      },
+      "coverage": {
+        "stmt": "IS",
+        "rows_total": 29,
+        "rows_with_values": 29,
+        "rows_missing_values": 0,
+        "coverage_ratio": 1.0,
+        "missing_tags": [],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240930",
+            "qtrs": 1
+          }
+        ]
+      },
+      "subtotal_checks": []
+    },
+    "CF": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 39,
+        "rows_reconstructed": 39,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 2,
+        "rows": [
+          {
+            "line": 5,
+            "tag": "DisposalGroupNotDiscontinuedOperationGainLossOnDisposal",
+            "candidate_count": 2
+          },
+          {
+            "line": 26,
+            "tag": "ProceedsFromDivestitureOfBusinessesNetOfCashDivested",
+            "candidate_count": 2
+          }
+        ]
+      },
+      "coverage": {
+        "stmt": "CF",
+        "rows_total": 39,
+        "rows_with_values": 37,
+        "rows_missing_values": 2,
+        "coverage_ratio": 0.9487179487179487,
+        "missing_tags": [
+          "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+          "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+        ],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": [
+          "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+          "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+        ]
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240930",
+            "qtrs": 3
+          }
+        ]
+      },
+      "subtotal_checks": []
+    },
+    "EQ": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 14,
+        "rows_reconstructed": 14,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 6,
+        "rows": [
+          {
+            "line": 14,
+            "tag": "ProfitLoss",
+            "candidate_count": 4
+          },
+          {
+            "line": 15,
+            "tag": "DividendsCash",
+            "candidate_count": 3
+          },
+          {
+            "line": 16,
+            "tag": "AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue",
+            "candidate_count": 3
+          },
+          {
+            "line": 18,
+            "tag": "ShareRepurchasesRelatedToEmployeeStockBasedCompensationAwardsValue",
+            "candidate_count": 3
+          },
+          {
+            "line": 19,
+            "tag": "OtherComprehensiveIncomeLossNetOfTax",
+            "candidate_count": 3
+          },
+          {
+            "line": 25,
+            "tag": "StockRepurchasedDuringPeriodValue",
+            "candidate_count": 3
+          }
+        ]
+      },
+      "coverage": {
+        "stmt": "EQ",
+        "rows_total": 14,
+        "rows_with_values": 7,
+        "rows_missing_values": 7,
+        "coverage_ratio": 0.5,
+        "missing_tags": [
+          "CommonStockSharesIssued",
+          "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest",
+          "StockIssuedDuringPeriodSharesShareBasedCompensation",
+          "ConvertibleNoteHedgeTransactions",
+          "AdjustmentsToAdditionalPaidInCapitalWarrantIssued",
+          "CommonStockSharesIssued",
+          "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
+        ],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": [
+          "CommonStockSharesIssued",
+          "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest",
+          "StockIssuedDuringPeriodSharesShareBasedCompensation",
+          "ConvertibleNoteHedgeTransactions",
+          "AdjustmentsToAdditionalPaidInCapitalWarrantIssued",
+          "CommonStockSharesIssued",
+          "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
+        ]
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240930",
+            "qtrs": 1
+          }
+        ]
+      },
+      "subtotal_checks": []
+    },
+    "CI": {
+      "structural_parity": {
+        "applicable": false,
+        "passed": true,
+        "reason": "No structure rows in pre.txt for this statement code."
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 0,
+        "rows": []
+      },
+      "coverage": {
+        "stmt": "CI",
+        "rows_total": 7,
+        "rows_with_values": 7,
+        "rows_missing_values": 0,
+        "coverage_ratio": 1.0,
+        "missing_tags": [],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240930",
+            "qtrs": 1
+          }
+        ]
+      },
+      "subtotal_checks": []
+    }
+  },
+  "summary": {
+    "statements_checked": [
+      "BS",
+      "IS",
+      "CF",
+      "EQ",
+      "CI"
+    ],
+    "rows_total": 127,
+    "rows_with_values": 117,
+    "overall_coverage_ratio": 0.9212598425196851,
+    "structural_failures": 0,
+    "context_warnings": 0,
+    "duplicate_candidate_rows": 20,
+    "subtotal_failures": 0,
+    "status": "warn"
+  }
+}

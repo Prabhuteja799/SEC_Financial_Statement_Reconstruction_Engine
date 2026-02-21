@@ -326,3 +326,33 @@ class FinancialStatementEngine:
                 export_df.to_excel(writer, sheet_name=code, index=False)
 
         return output
+
+    def validate_filing_reconstruction(
+        self, adsh: str, statement_codes: Optional[List[str]] = None
+    ) -> Dict[str, object]:
+        """
+        Run reconstruction validation checks and return a structured report.
+        """
+        if not self.numeric_parser or not self.presentation_parser or not self.tag_parser:
+            return {
+                "adsh": adsh,
+                "statements": {},
+                "summary": {
+                    "statements_checked": statement_codes or [],
+                    "rows_total": 0,
+                    "rows_with_values": 0,
+                    "overall_coverage_ratio": 0.0,
+                    "structural_failures": 0,
+                    "context_warnings": 0,
+                    "duplicate_candidate_rows": 0,
+                    "subtotal_failures": 0,
+                    "status": "fail",
+                },
+            }
+
+        reconstructor = StatementReconstructor(
+            self.numeric_parser,
+            self.presentation_parser,
+            self.tag_parser,
+        )
+        return reconstructor.validate_filing_reconstruction(adsh, statement_codes=statement_codes)

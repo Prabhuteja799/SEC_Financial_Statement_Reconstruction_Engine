@@ -254,6 +254,70 @@ class StatementReconstructor:
         return pd.DataFrame(rows).sort_values(["line"]).reset_index(drop=True)
 
     @staticmethod
+    def _is_expected_missing(tag: str) -> bool:
+        """Heuristic for tags that are often non-numeric disclosures/headers."""
+        tag_lower = tag.lower()
+        return any(
+            pattern in tag_lower
+            for pattern in ["commitmentsandcontingencies", "textblock", "abstract", "policy"]
+        )
+
+    @staticmethod
+    def _run_subtotal_checks(stmt_code: str, table: pd.DataFrame) -> list[Dict[str, object]]:
+        """Run lightweight subtotal/consistency checks for high-signal totals."""
+        if table.empty:
+            return []
+
+        checks: list[Dict[str, object]] = []
+        valued = table[table["has_value"]].copy()
+        if valued.empty:
+            return checks
+
+        if stmt_code == "BS":
+            assets = valued[valued["tag"] == "Assets"]["display_value"]
+            liab_eq = valued[valued["tag"] == "LiabilitiesAndStockholdersEquity"]["display_value"]
+            if not assets.empty and not liab_eq.empty:
+                assets_v = float(assets.iloc[0])
+                liab_eq_v = float(liab_eq.iloc[0])
+                delta = assets_v - liab_eq_v
+                checks.append(
+                    {
+                        "name": "assets_equals_liabilities_and_equity",
+                        "passed": abs(delta) < 1.0,
+                        "delta": delta,
+                    }
+                )
+
+        if stmt_code == "CF":
+            net_tag = (
+                "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+                "PeriodIncreaseDecreaseIncludingExchangeRateEffect"
+            )
+            net = valued[valued["tag"] == net_tag]["display_value"]
+            cash_rows = valued[
+                valued["tag"] == "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+            ]
+            begin = cash_rows[cash_rows["label"].str.contains("beginning", case=False, na=False)][
+                "display_value"
+            ]
+            end = cash_rows[cash_rows["label"].str.contains("end", case=False, na=False)][
+                "display_value"
+            ]
+            if not net.empty and not begin.empty and not end.empty:
+                net_v = float(net.iloc[0])
+                calc_v = float(end.iloc[0]) - float(begin.iloc[0])
+                delta = net_v - calc_v
+                checks.append(
+                    {
+                        "name": "cash_rollforward_consistency",
+                        "passed": abs(delta) < 1.0,
+                        "delta": delta,
+                    }
+                )
+
+        return checks
+
+    @staticmethod
     def _choose_preferred_fact(matches: pd.DataFrame) -> Optional[pd.Series]:
         if matches.empty:
             return None
@@ -354,6 +418,7 @@ class StatementReconstructor:
                     "qtrs": resolved_qtrs,
                     "segments": segments,
                     "coreg": coreg,
+                    "candidate_count": int(len(matches)),
                     "has_value": value is not None,
                 }
             )
@@ -385,6 +450,118 @@ class StatementReconstructor:
             "coverage_ratio": coverage_ratio,
             "missing_tags": missing["tag"].tolist(),
         }
+
+    def validate_filing_reconstruction(
+        self, adsh: str, statement_codes: Optional[list[str]] = None
+    ) -> Dict[str, object]:
+        """
+        Validate reconstructed statements for structural and numeric integrity.
+        """
+        codes = statement_codes or self.CORE_STATEMENT_CODES
+        tables = self.reconstruct_filing_tables(adsh, statement_codes=codes)
+        report: Dict[str, object] = {"adsh": adsh, "statements": {}, "summary": {}}
+
+        total_rows = 0
+        total_rows_with_values = 0
+        structural_failures = 0
+        context_warnings = 0
+        duplicate_candidate_rows = 0
+        subtotal_failures = 0
+
+        for code in codes:
+            table = tables.get(code, pd.DataFrame())
+            stmt_result: Dict[str, object] = {}
+            coverage = self.get_statement_coverage(adsh, code)
+            total_rows += int(coverage["rows_total"])
+            total_rows_with_values += int(coverage["rows_with_values"])
+
+            pre_structure = self.presentation_parser.get_statement_structure(adsh, code)
+            if pre_structure.empty:
+                stmt_result["structural_parity"] = {
+                    "applicable": False,
+                    "passed": True,
+                    "reason": "No structure rows in pre.txt for this statement code.",
+                }
+            else:
+                reconstructed = table[["report", "line", "inpth", "tag"]].reset_index(drop=True)
+                expected = pre_structure[["report", "line", "inpth", "tag"]].reset_index(drop=True)
+                order_match = reconstructed.equals(expected) if not table.empty else False
+                passed = bool(order_match and len(table) == len(pre_structure))
+                if not passed:
+                    structural_failures += 1
+                stmt_result["structural_parity"] = {
+                    "applicable": True,
+                    "passed": passed,
+                    "rows_expected": int(len(pre_structure)),
+                    "rows_reconstructed": int(len(table)),
+                    "order_match": bool(order_match),
+                }
+
+            if not table.empty and "candidate_count" in table.columns:
+                dup = table[table["candidate_count"] > 1][["line", "tag", "candidate_count"]]
+                duplicate_candidate_rows += int(len(dup))
+                stmt_result["duplicate_candidates"] = {
+                    "rows_with_multiple_candidates": int(len(dup)),
+                    "rows": dup.to_dict("records"),
+                }
+            else:
+                stmt_result["duplicate_candidates"] = {
+                    "rows_with_multiple_candidates": 0,
+                    "rows": [],
+                }
+
+            missing_expected = []
+            missing_unexpected = []
+            if not table.empty:
+                missing_rows = table[~table["has_value"]]
+                for _, row in missing_rows.iterrows():
+                    tag = str(row["tag"])
+                    if self._is_expected_missing(tag):
+                        missing_expected.append(tag)
+                    else:
+                        missing_unexpected.append(tag)
+
+            stmt_result["coverage"] = {
+                **coverage,
+                "expected_missing_tags": missing_expected,
+                "unexpected_missing_tags": missing_unexpected,
+            }
+
+            if not table.empty:
+                valued = table[table["has_value"]][["ddate", "qtrs"]].drop_duplicates()
+                coherent = len(valued) <= 1
+                if not coherent:
+                    context_warnings += 1
+                stmt_result["context_coherence"] = {
+                    "passed": coherent,
+                    "contexts": valued.to_dict("records"),
+                }
+            else:
+                stmt_result["context_coherence"] = {"passed": True, "contexts": []}
+
+            subtotal_checks = self._run_subtotal_checks(code, table)
+            failed_subtotals = [c for c in subtotal_checks if not c["passed"]]
+            subtotal_failures += len(failed_subtotals)
+            stmt_result["subtotal_checks"] = subtotal_checks
+
+            report["statements"][code] = stmt_result
+
+        report["summary"] = {
+            "statements_checked": codes,
+            "rows_total": total_rows,
+            "rows_with_values": total_rows_with_values,
+            "overall_coverage_ratio": (total_rows_with_values / total_rows) if total_rows else 0.0,
+            "structural_failures": structural_failures,
+            "context_warnings": context_warnings,
+            "duplicate_candidate_rows": duplicate_candidate_rows,
+            "subtotal_failures": subtotal_failures,
+            "status": (
+                "fail"
+                if structural_failures > 0 or subtotal_failures > 0
+                else ("warn" if context_warnings > 0 or duplicate_candidate_rows > 0 else "pass")
+            ),
+        }
+        return report
 
     def reconstruct_filing_tables(
         self, adsh: str, statement_codes: Optional[list[str]] = None

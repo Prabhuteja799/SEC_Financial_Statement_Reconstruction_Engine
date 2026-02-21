@@ -202,6 +202,26 @@ class TestFinancialStatementEngine:
         bs_sheet = pd.read_excel(created, sheet_name='BS')
         assert {'line_item', 'formatted_value', 'has_value'}.issubset(bs_sheet.columns)
 
+    def test_validate_filing_reconstruction(self, engine):
+        """Validation report should include per-statement and summary diagnostics."""
+        adsh = '0001628280-24-043777'
+        report = engine.validate_filing_reconstruction(adsh)
+
+        assert report['adsh'] == adsh
+        assert 'summary' in report
+        assert 'statements' in report
+        for code in ['BS', 'IS', 'CF', 'EQ', 'CI']:
+            assert code in report['statements']
+            stmt = report['statements'][code]
+            assert 'coverage' in stmt
+            assert 'context_coherence' in stmt
+            assert 'duplicate_candidates' in stmt
+
+        summary = report['summary']
+        assert summary['rows_total'] >= summary['rows_with_values']
+        assert 0.0 <= summary['overall_coverage_ratio'] <= 1.0
+        assert summary['status'] in {'pass', 'warn', 'fail'}
+
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
