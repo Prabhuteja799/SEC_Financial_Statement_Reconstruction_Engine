@@ -142,7 +142,16 @@ class TestFinancialStatementEngine:
         table = engine.reconstruct_statement_table(adsh, 'BS')
         assert isinstance(table, pd.DataFrame)
         assert len(table) > 0
-        assert {'line', 'inpth', 'tag', 'label', 'value', 'has_value'}.issubset(table.columns)
+        assert {
+            'line',
+            'inpth',
+            'tag',
+            'label',
+            'value',
+            'display_value',
+            'formatted_value',
+            'has_value',
+        }.issubset(table.columns)
 
         structure = engine.presentation_parser.get_statement_structure(adsh, 'BS')
         assert len(table) == len(structure)
@@ -158,6 +167,25 @@ class TestFinancialStatementEngine:
         for code in ['BS', 'IS', 'CF', 'EQ', 'CI']:
             assert code in tables
             assert isinstance(tables[code], pd.DataFrame)
+
+        # CI fallback should produce rows from numeric facts even without CI pre.txt structure
+        assert len(tables['CI']) > 0
+
+    def test_formatted_negative_values(self, engine):
+        """Negative display values should use financial parentheses format."""
+        adsh = '0001628280-24-043777'
+        cf_table = engine.reconstruct_statement_table(adsh, 'CF')
+        negative_rows = cf_table[cf_table['display_value'] < 0]
+        if not negative_rows.empty:
+            assert negative_rows['formatted_value'].str.startswith('(').all()
+
+    def test_statement_coverage(self, engine):
+        """Coverage metrics should be available per statement."""
+        adsh = '0001628280-24-043777'
+        coverage = engine.get_statement_coverage(adsh, 'EQ')
+        assert coverage['stmt'] == 'EQ'
+        assert coverage['rows_total'] >= coverage['rows_with_values']
+        assert 0.0 <= coverage['coverage_ratio'] <= 1.0
 
 
 if __name__ == "__main__":

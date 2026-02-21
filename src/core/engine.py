@@ -268,3 +268,24 @@ class FinancialStatementEngine:
             self.tag_parser,
         )
         return reconstructor.reconstruct_filing_tables(adsh, statement_codes=statement_codes)
+
+    def get_statement_coverage(self, adsh: str, stmt_code: str) -> Dict[str, object]:
+        """
+        Get statement mapping coverage metrics for one filing/statement.
+        """
+        if not self.numeric_parser or not self.presentation_parser or not self.tag_parser:
+            return {
+                "stmt": stmt_code,
+                "rows_total": 0,
+                "rows_with_values": 0,
+                "rows_missing_values": 0,
+                "coverage_ratio": 0.0,
+                "missing_tags": [],
+            }
+
+        reconstructor = StatementReconstructor(
+            self.numeric_parser,
+            self.presentation_parser,
+            self.tag_parser,
+        )
+        return reconstructor.get_statement_coverage(adsh, stmt_code)

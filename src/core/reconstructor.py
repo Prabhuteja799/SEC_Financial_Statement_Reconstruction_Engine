@@ -115,19 +115,21 @@ class StatementReconstructor:
         """
         Infer a single (ddate, qtrs) context for a statement table.
         """
-        facts = self.numeric_parser.get_facts_by_adsh(adsh)
-        if facts.empty:
+        all_facts = self.numeric_parser.get_facts_by_adsh(adsh)
+        if all_facts.empty:
             return None, None
 
-        facts = self._primary_context_rows(facts.copy())
-        facts = facts[facts["tag"].isin(statement_tags)]
-        if facts.empty:
-            return None, None
+        def filter_candidates(source: pd.DataFrame) -> pd.DataFrame:
+            candidates = source[source["tag"].isin(statement_tags)]
+            if candidates.empty:
+                return candidates
+            if stmt_code in self.BALANCE_SHEET_CODES:
+                return candidates[candidates["qtrs"] == 0]
+            return candidates[candidates["qtrs"].notna() & (candidates["qtrs"] > 0)]
 
-        if stmt_code in self.BALANCE_SHEET_CODES:
-            facts = facts[facts["qtrs"] == 0]
-        else:
-            facts = facts[facts["qtrs"].notna() & (facts["qtrs"] > 0)]
+        facts = filter_candidates(self._primary_context_rows(all_facts.copy()))
+        if facts.empty:
+            facts = filter_candidates(all_facts.copy())
 
         if facts.empty:
             return None, None
@@ -143,6 +145,113 @@ class StatementReconstructor:
         target_qtrs = int(qtrs_mode.iloc[0]) if not qtrs_mode.empty else None
 
         return target_date.strftime("%Y%m%d"), target_qtrs
+
+    @staticmethod
+    def _apply_sign_rules(stmt_code: str, tag: str, value: float, negating: str) -> float:
+        """Apply statement-aware sign handling; avoid blind inversions."""
+        signed = -value if str(negating) == "1" else value
+        tag_lower = tag.lower()
+
+        if stmt_code == "CF":
+            if any(x in tag_lower for x in ["payment", "repurchase", "repay", "purchase"]):
+                signed = -abs(signed)
+            elif any(x in tag_lower for x in ["proceeds", "issuance", "borrowings", "borrow"]):
+                signed = abs(signed)
+
+        if stmt_code == "EQ":
+            if any(x in tag_lower for x in ["dividend", "repurchase", "purchases", "payment"]):
+                signed = -abs(signed)
+
+        return signed
+
+    @staticmethod
+    def _format_display_value(display_value: Optional[float]) -> Optional[str]:
+        """Format numeric values with financial-style parentheses for negatives."""
+        if display_value is None or pd.isna(display_value):
+            return None
+
+        rounded = round(float(display_value), 2)
+        if float(rounded).is_integer():
+            abs_text = f"{abs(int(rounded)):,}"
+        else:
+            abs_text = f"{abs(rounded):,.2f}"
+        return f"({abs_text})" if rounded < 0 else abs_text
+
+    def _reconstruct_ci_fallback(
+        self, adsh: str, ddate: Optional[str] = None, qtrs: Optional[int] = None
+    ) -> pd.DataFrame:
+        """
+        Build CI table from num.txt when no standalone CI structure exists in pre.txt.
+        """
+        facts = self.numeric_parser.get_facts_by_adsh(adsh)
+        if facts.empty:
+            return pd.DataFrame()
+
+        ci_mask = facts["tag"].str.contains("ComprehensiveIncome", na=False, case=False)
+        facts = facts[ci_mask].copy()
+        facts = facts[facts["qtrs"].notna() & (facts["qtrs"] > 0)]
+        if facts.empty:
+            return pd.DataFrame()
+
+        if ddate is not None:
+            facts = facts[facts["ddate"] == str(ddate)]
+        if qtrs is not None:
+            facts = facts[facts["qtrs"] == int(qtrs)]
+
+        if facts.empty:
+            return pd.DataFrame()
+
+        if ddate is None or qtrs is None:
+            facts["ddate_ts"] = pd.to_datetime(facts["ddate"], format="%Y%m%d", errors="coerce")
+            facts = facts[facts["ddate_ts"].notna()]
+            if facts.empty:
+                return pd.DataFrame()
+            latest = facts["ddate_ts"].max()
+            facts = facts[facts["ddate_ts"] == latest]
+            if qtrs is None:
+                qtrs_mode = facts["qtrs"].mode(dropna=True)
+                if not qtrs_mode.empty:
+                    facts = facts[facts["qtrs"] == int(qtrs_mode.iloc[0])]
+
+        rows = []
+        for i, (tag, group) in enumerate(facts.groupby("tag"), start=1):
+            chosen = self._choose_preferred_fact(group)
+            if chosen is None:
+                continue
+
+            raw_value = None if pd.isna(chosen["value"]) else float(chosen["value"])
+            display_value = (
+                self._apply_sign_rules("CI", str(tag), raw_value, "0")
+                if raw_value is not None
+                else None
+            )
+            label = self.tag_parser.get_tag_label(str(tag)) if self.tag_parser else str(tag)
+
+            rows.append(
+                {
+                    "adsh": adsh,
+                    "stmt": "CI",
+                    "report": 0,
+                    "line": i,
+                    "inpth": 0,
+                    "rfile": "D",
+                    "tag": str(tag),
+                    "version": chosen.get("version"),
+                    "label": label or str(tag),
+                    "negating": "0",
+                    "value": raw_value,
+                    "display_value": display_value,
+                    "formatted_value": self._format_display_value(display_value),
+                    "uom": chosen.get("uom"),
+                    "ddate": chosen.get("ddate"),
+                    "qtrs": None if pd.isna(chosen.get("qtrs")) else int(chosen.get("qtrs")),
+                    "segments": chosen.get("segments"),
+                    "coreg": chosen.get("coreg"),
+                    "has_value": raw_value is not None,
+                }
+            )
+
+        return pd.DataFrame(rows).sort_values(["line"]).reset_index(drop=True)
 
     @staticmethod
     def _choose_preferred_fact(matches: pd.DataFrame) -> Optional[pd.Series]:
@@ -172,6 +281,8 @@ class StatementReconstructor:
         """
         structure = self.presentation_parser.get_statement_structure(adsh, stmt_code)
         if structure.empty:
+            if stmt_code == "CI":
+                return self._reconstruct_ci_fallback(adsh, ddate=ddate, qtrs=qtrs)
             return pd.DataFrame()
 
         structure = structure.sort_values(["report", "line"]).reset_index(drop=True)
@@ -186,7 +297,6 @@ class StatementReconstructor:
                 target_qtrs = inferred_qtrs
 
         facts = self.numeric_parser.get_facts_by_adsh(adsh)
-        facts = self._primary_context_rows(facts.copy())
         facts = facts[facts["tag"].isin(tag_set)]
         if target_ddate is not None:
             facts = facts[facts["ddate"] == str(target_ddate)]
@@ -213,7 +323,9 @@ class StatementReconstructor:
             if chosen is not None:
                 value = None if pd.isna(chosen["value"]) else float(chosen["value"])
                 if value is not None:
-                    display_value = -value if str(srow.get("negating", "0")) == "1" else value
+                    display_value = self._apply_sign_rules(
+                        stmt_code, str(tag), value, str(srow.get("negating", "0"))
+                    )
                 uom = chosen["uom"]
                 resolved_ddate = chosen["ddate"]
                 resolved_qtrs = (
@@ -236,6 +348,7 @@ class StatementReconstructor:
                     "negating": srow["negating"],
                     "value": value,
                     "display_value": display_value,
+                    "formatted_value": self._format_display_value(display_value),
                     "uom": uom,
                     "ddate": resolved_ddate,
                     "qtrs": resolved_qtrs,
@@ -246,6 +359,32 @@ class StatementReconstructor:
             )
 
         return pd.DataFrame(rows)
+
+    def get_statement_coverage(self, adsh: str, stmt_code: str) -> Dict[str, object]:
+        """Return lightweight validation/coverage metrics for one statement."""
+        table = self.reconstruct_statement_table(adsh, stmt_code)
+        if table.empty:
+            return {
+                "stmt": stmt_code,
+                "rows_total": 0,
+                "rows_with_values": 0,
+                "rows_missing_values": 0,
+                "coverage_ratio": 0.0,
+                "missing_tags": [],
+            }
+
+        missing = table[~table["has_value"]]
+        rows_total = int(len(table))
+        rows_with_values = int(table["has_value"].sum())
+        coverage_ratio = (rows_with_values / rows_total) if rows_total else 0.0
+        return {
+            "stmt": stmt_code,
+            "rows_total": rows_total,
+            "rows_with_values": rows_with_values,
+            "rows_missing_values": int(len(missing)),
+            "coverage_ratio": coverage_ratio,
+            "missing_tags": missing["tag"].tolist(),
+        }
 
     def reconstruct_filing_tables(
         self, adsh: str, statement_codes: Optional[list[str]] = None
