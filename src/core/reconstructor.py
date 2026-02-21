@@ -395,6 +395,55 @@ class StatementReconstructor:
             output[code] = self.reconstruct_statement_table(adsh, code)
         return output
 
+    @staticmethod
+    def format_table_for_export(table: pd.DataFrame) -> pd.DataFrame:
+        """
+        Convert an internal reconstructed table into an Excel-friendly format.
+        """
+        if table.empty:
+            return pd.DataFrame(
+                columns=[
+                    "report",
+                    "line",
+                    "depth",
+                    "line_item",
+                    "tag",
+                    "label",
+                    "uom",
+                    "ddate",
+                    "qtrs",
+                    "value",
+                    "display_value",
+                    "formatted_value",
+                    "has_value",
+                ]
+            )
+
+        ordered = table.sort_values(["report", "line"]).copy()
+        ordered["line_item"] = ordered.apply(
+            lambda r: f"{'  ' * int(r['inpth'])}{r['label']}" if pd.notna(r["inpth"]) else str(r["label"]),
+            axis=1,
+        )
+        ordered = ordered.rename(columns={"inpth": "depth"})
+
+        return ordered[
+            [
+                "report",
+                "line",
+                "depth",
+                "line_item",
+                "tag",
+                "label",
+                "uom",
+                "ddate",
+                "qtrs",
+                "value",
+                "display_value",
+                "formatted_value",
+                "has_value",
+            ]
+        ].reset_index(drop=True)
+
     def reconstruct_balance_sheet(
         self,
         adsh: str,

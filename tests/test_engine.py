@@ -187,6 +187,21 @@ class TestFinancialStatementEngine:
         assert coverage['rows_total'] >= coverage['rows_with_values']
         assert 0.0 <= coverage['coverage_ratio'] <= 1.0
 
+    def test_export_filing_to_excel(self, engine, tmp_path):
+        """Workbook export should create all required statement sheets."""
+        pytest.importorskip("openpyxl")
+
+        adsh = '0001628280-24-043777'
+        output_path = tmp_path / "SEC_FULL_STRUCTURED.xlsx"
+        created = engine.export_filing_to_excel(adsh, output_path=output_path)
+
+        assert created.exists()
+        workbook = pd.ExcelFile(created)
+        assert {'BS', 'IS', 'CF', 'EQ', 'CI'}.issubset(set(workbook.sheet_names))
+
+        bs_sheet = pd.read_excel(created, sheet_name='BS')
+        assert {'line_item', 'formatted_value', 'has_value'}.issubset(bs_sheet.columns)
+
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

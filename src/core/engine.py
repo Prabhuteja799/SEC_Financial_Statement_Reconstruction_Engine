@@ -289,3 +289,40 @@ class FinancialStatementEngine:
             self.tag_parser,
         )
         return reconstructor.get_statement_coverage(adsh, stmt_code)
+
+    def export_filing_to_excel(
+        self,
+        adsh: str,
+        output_path: Path | str = "SEC_FULL_STRUCTURED.xlsx",
+        statement_codes: Optional[List[str]] = None,
+    ) -> Path:
+        """
+        Export reconstructed statement tables to an Excel workbook.
+
+        Args:
+            adsh: Accession number
+            output_path: Output workbook path
+            statement_codes: Optional list of statement codes to export
+
+        Returns:
+            Path to the generated workbook
+        """
+        if not self.numeric_parser or not self.presentation_parser or not self.tag_parser:
+            raise ValueError("Parsers are not initialized. Ensure num.txt, pre.txt, and tag.txt are available.")
+
+        reconstructor = StatementReconstructor(
+            self.numeric_parser,
+            self.presentation_parser,
+            self.tag_parser,
+        )
+        tables = reconstructor.reconstruct_filing_tables(adsh, statement_codes=statement_codes)
+
+        output = Path(output_path)
+        output.parent.mkdir(parents=True, exist_ok=True)
+
+        with pd.ExcelWriter(output) as writer:
+            for code, table in tables.items():
+                export_df = reconstructor.format_table_for_export(table)
+                export_df.to_excel(writer, sheet_name=code, index=False)
+
+        return output
