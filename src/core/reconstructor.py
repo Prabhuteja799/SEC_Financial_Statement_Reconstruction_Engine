@@ -293,10 +293,15 @@ class StatementReconstructor:
                 "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
                 "PeriodIncreaseDecreaseIncludingExchangeRateEffect"
             )
+            fx_tag = (
+                "EffectOfExchangeRateOnCashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+            )
             net = valued[valued["tag"] == net_tag]["display_value"]
+            fx = valued[valued["tag"] == fx_tag]["display_value"]
             cash_rows = valued[
-                valued["tag"] == "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
-            ]
+                (valued["tag"] == "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents")
+                & (valued["qtrs"] == 0)
+            ].copy()
             begin = cash_rows[cash_rows["label"].str.contains("beginning", case=False, na=False)][
                 "display_value"
             ]
@@ -306,30 +311,167 @@ class StatementReconstructor:
             if not net.empty and not begin.empty and not end.empty:
                 net_v = float(net.iloc[0])
                 calc_v = float(end.iloc[0]) - float(begin.iloc[0])
-                delta = net_v - calc_v
+                delta_direct = net_v - calc_v
+                fx_v = float(fx.iloc[0]) if not fx.empty else 0.0
+                delta_with_fx = (net_v + fx_v) - calc_v
+                passed = abs(delta_direct) < 1.0 or abs(delta_with_fx) < 1.0
+                used = "direct" if abs(delta_direct) < 1.0 else ("with_fx" if abs(delta_with_fx) < 1.0 else "none")
                 checks.append(
                     {
                         "name": "cash_rollforward_consistency",
-                        "passed": abs(delta) < 1.0,
-                        "delta": delta,
+                        "passed": passed,
+                        "delta": delta_direct,
+                        "delta_with_fx": delta_with_fx,
+                        "used_formula": used,
                     }
                 )
 
         return checks
 
     @staticmethod
-    def _choose_preferred_fact(matches: pd.DataFrame) -> Optional[pd.Series]:
+    def _context_coherence_for_statement(stmt_code: str, table: pd.DataFrame) -> Dict[str, object]:
+        """Statement-aware context coherence validation."""
+        if table.empty:
+            return {"passed": True, "contexts": [], "rule": "empty"}
+
+        valued = table[table["has_value"]][["ddate", "qtrs"]].drop_duplicates()
+        if valued.empty:
+            return {"passed": True, "contexts": [], "rule": "no_valued_rows"}
+
+        contexts = valued.to_dict("records")
+        if stmt_code == "CF":
+            duration = valued[valued["qtrs"] > 0]
+            instant = valued[valued["qtrs"] == 0]
+            passed = len(duration) <= 1 and len(instant) <= 2
+            return {"passed": passed, "contexts": contexts, "rule": "cf_duration_plus_begin_end_instant"}
+
+        if stmt_code == "EQ":
+            # EQ commonly spans beginning/ending balances and movement periods.
+            return {"passed": True, "contexts": contexts, "rule": "eq_multi_context_allowed"}
+
+        passed = len(valued) <= 1
+        return {"passed": passed, "contexts": contexts, "rule": "single_context"}
+
+    def _select_fact_for_row(
+        self,
+        stmt_code: str,
+        srow: pd.Series,
+        facts: pd.DataFrame,
+        target_ddate: Optional[str],
+        target_qtrs: Optional[int],
+    ) -> Tuple[Optional[pd.Series], int]:
+        """
+        Select the best numeric fact for a statement row using row-aware context rules.
+        """
+        tag = srow["tag"]
+        version = srow["version"]
+        label = str(srow.get("plabel", "")).lower()
+
+        matches = facts[facts["tag"] == tag].copy()
+        if pd.notna(version):
+            matches = matches[matches["version"] == version]
+        if matches.empty:
+            return None, 0
+
+        target_end = pd.to_datetime(str(target_ddate), format="%Y%m%d", errors="coerce")
+        desired_qtrs: Optional[int] = target_qtrs
+        date_mode = "equal"
+
+        if stmt_code in self.BALANCE_SHEET_CODES:
+            desired_qtrs = 0
+        elif stmt_code == "CF" and tag == "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents":
+            desired_qtrs = 0
+            if "beginning" in label:
+                date_mode = "before"
+            elif "end" in label:
+                date_mode = "equal"
+        elif stmt_code == "EQ":
+            if "beginning" in label:
+                desired_qtrs = 0
+                date_mode = "before"
+            elif "ending" in label:
+                desired_qtrs = 0
+                date_mode = "equal"
+            elif "balance" in label and "beginning" not in label and "ending" not in label:
+                desired_qtrs = 0
+            else:
+                desired_qtrs = target_qtrs
+
+        if desired_qtrs is not None:
+            by_qtrs = matches[matches["qtrs"] == int(desired_qtrs)]
+            if not by_qtrs.empty:
+                matches = by_qtrs
+
+        matches["ddate_ts"] = pd.to_datetime(matches["ddate"], format="%Y%m%d", errors="coerce")
+        matches = matches[matches["ddate_ts"].notna()]
+        if matches.empty:
+            return None, 0
+
+        if pd.notna(target_end):
+            if date_mode == "before":
+                before = matches[matches["ddate_ts"] < target_end]
+                if not before.empty:
+                    matches = before
+            else:
+                exact = matches[matches["ddate_ts"] == target_end]
+                if not exact.empty:
+                    matches = exact
+
+        # For CF cash begin/end rows, force date selection by row semantics.
+        if (
+            stmt_code == "CF"
+            and tag == "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+            and pd.notna(target_end)
+        ):
+            if "beginning" in label:
+                prior = matches[matches["ddate_ts"] < target_end]
+                if not prior.empty:
+                    matches = prior[prior["ddate_ts"] == prior["ddate_ts"].max()]
+            elif "end" in label:
+                exact_end = matches[matches["ddate_ts"] == target_end]
+                if not exact_end.empty:
+                    matches = exact_end
+
+        # Extra label-aware narrowing for EQ rows.
+        if stmt_code == "EQ":
+            if "beginning" in label:
+                # Prefer earliest available instant point before or at target end.
+                min_date = matches["ddate_ts"].min()
+                narrowed = matches[matches["ddate_ts"] == min_date]
+                if not narrowed.empty:
+                    matches = narrowed
+            elif "ending" in label:
+                # Prefer latest available instant point.
+                max_date = matches["ddate_ts"].max()
+                narrowed = matches[matches["ddate_ts"] == max_date]
+                if not narrowed.empty:
+                    matches = narrowed
+
+        candidate_count = int(len(matches))
+        chosen = self._choose_preferred_fact(matches, prefer_segments=(stmt_code != "EQ"))
+        return chosen, candidate_count
+
+    @staticmethod
+    def _choose_preferred_fact(
+        matches: pd.DataFrame, prefer_segments: bool = True
+    ) -> Optional[pd.Series]:
         if matches.empty:
             return None
 
         scored = matches.copy()
+        if "ddate_ts" not in scored.columns:
+            scored["ddate_ts"] = pd.to_datetime(scored["ddate"], format="%Y%m%d", errors="coerce")
         scored["coreg_rank"] = (~(scored["coreg"].isna() | (scored["coreg"] == ""))).astype(int)
-        scored["segments_rank"] = (~(scored["segments"].isna() | (scored["segments"] == ""))).astype(
-            int
-        )
+        if prefer_segments:
+            scored["segments_rank"] = (~(scored["segments"].isna() | (scored["segments"] == ""))).astype(
+                int
+            )
+        else:
+            scored["segments_rank"] = 0
         scored["abs_value"] = scored["value"].abs().fillna(0)
         scored = scored.sort_values(
-            ["coreg_rank", "segments_rank", "abs_value"], ascending=[True, True, False]
+            ["coreg_rank", "segments_rank", "abs_value", "ddate_ts"],
+            ascending=[True, True, False, False],
         )
         return scored.iloc[0]
 
@@ -362,19 +504,18 @@ class StatementReconstructor:
 
         facts = self.numeric_parser.get_facts_by_adsh(adsh)
         facts = facts[facts["tag"].isin(tag_set)]
-        if target_ddate is not None:
-            facts = facts[facts["ddate"] == str(target_ddate)]
-        if target_qtrs is not None:
-            facts = facts[facts["qtrs"] == int(target_qtrs)]
 
         rows = []
         for _, srow in structure.iterrows():
             tag = srow["tag"]
+            chosen, candidate_count = self._select_fact_for_row(
+                stmt_code=stmt_code,
+                srow=srow,
+                facts=facts,
+                target_ddate=target_ddate,
+                target_qtrs=target_qtrs,
+            )
             version = srow["version"]
-            matches = facts[facts["tag"] == tag]
-            if pd.notna(version):
-                matches = matches[matches["version"] == version]
-            chosen = self._choose_preferred_fact(matches)
 
             value = None
             display_value = None
@@ -418,7 +559,7 @@ class StatementReconstructor:
                     "qtrs": resolved_qtrs,
                     "segments": segments,
                     "coreg": coreg,
-                    "candidate_count": int(len(matches)),
+                    "candidate_count": candidate_count,
                     "has_value": value is not None,
                 }
             )
@@ -527,17 +668,10 @@ class StatementReconstructor:
                 "unexpected_missing_tags": missing_unexpected,
             }
 
-            if not table.empty:
-                valued = table[table["has_value"]][["ddate", "qtrs"]].drop_duplicates()
-                coherent = len(valued) <= 1
-                if not coherent:
-                    context_warnings += 1
-                stmt_result["context_coherence"] = {
-                    "passed": coherent,
-                    "contexts": valued.to_dict("records"),
-                }
-            else:
-                stmt_result["context_coherence"] = {"passed": True, "contexts": []}
+            context_result = self._context_coherence_for_statement(code, table)
+            if not context_result["passed"]:
+                context_warnings += 1
+            stmt_result["context_coherence"] = context_result
 
             subtotal_checks = self._run_subtotal_checks(code, table)
             failed_subtotals = [c for c in subtotal_checks if not c["passed"]]

@@ -221,6 +221,20 @@ class TestFinancialStatementEngine:
         assert summary['rows_total'] >= summary['rows_with_values']
         assert 0.0 <= summary['overall_coverage_ratio'] <= 1.0
         assert summary['status'] in {'pass', 'warn', 'fail'}
+        # EQ supports multi-context patterns by design in phase 5.1.
+        assert report['statements']['EQ']['context_coherence']['passed'] is True
+
+    def test_validate_filings_batch(self, engine):
+        """Batch validation should run across multiple filings."""
+        submissions = engine.submission_parser.get_all_submissions()
+        adsh_list = submissions['adsh'].dropna().head(2).tolist()
+        report = engine.validate_filings_batch(adsh_list)
+
+        assert report['count'] == len(adsh_list)
+        assert set(report['status_counts'].keys()) == {'pass', 'warn', 'fail'}
+        for adsh in adsh_list:
+            assert adsh in report['results']
+            assert 'summary' in report['results'][adsh]
 
 
 if __name__ == "__main__":

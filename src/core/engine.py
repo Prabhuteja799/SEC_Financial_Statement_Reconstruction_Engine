@@ -356,3 +356,29 @@ class FinancialStatementEngine:
             self.tag_parser,
         )
         return reconstructor.validate_filing_reconstruction(adsh, statement_codes=statement_codes)
+
+    def validate_filings_batch(
+        self,
+        adsh_list: List[str],
+        statement_codes: Optional[List[str]] = None,
+    ) -> Dict[str, object]:
+        """
+        Run reconstruction validation across multiple filings to verify scalability.
+        """
+        results: Dict[str, Dict[str, object]] = {}
+        status_counts = {"pass": 0, "warn": 0, "fail": 0}
+
+        for adsh in adsh_list:
+            report = self.validate_filing_reconstruction(adsh, statement_codes=statement_codes)
+            results[adsh] = report
+            status = report.get("summary", {}).get("status", "fail")
+            if status not in status_counts:
+                status = "fail"
+            status_counts[status] += 1
+
+        return {
+            "filings_checked": adsh_list,
+            "count": len(adsh_list),
+            "status_counts": status_counts,
+            "results": results,
+        }
