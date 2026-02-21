@@ -236,6 +236,29 @@ class TestFinancialStatementEngine:
             assert adsh in report['results']
             assert 'summary' in report['results'][adsh]
 
+    def test_multi_company_reconstruction_regression(self, engine):
+        """Reconstruction should work across multiple companies without code changes."""
+        submissions = engine.submission_parser.get_all_submissions()
+        distinct = submissions[['cik', 'adsh']].dropna().drop_duplicates('cik').head(2)
+        assert len(distinct) == 2
+
+        for _, row in distinct.iterrows():
+            adsh = row['adsh']
+            tables = engine.reconstruct_filing_tables(adsh)
+            assert isinstance(tables, dict)
+            assert len(tables['BS']) > 0
+            assert len(tables['IS']) > 0
+            assert len(tables['CF']) > 0
+
+    def test_validate_filings_batch_status_aggregation(self, engine):
+        """Batch validation status counts should reconcile with filing count."""
+        submissions = engine.submission_parser.get_all_submissions()
+        adsh_list = submissions['adsh'].dropna().head(3).tolist()
+        report = engine.validate_filings_batch(adsh_list)
+
+        total_statuses = sum(report['status_counts'].values())
+        assert total_statuses == report['count'] == len(adsh_list)
+
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
