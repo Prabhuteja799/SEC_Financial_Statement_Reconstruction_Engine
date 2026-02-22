@@ -12,6 +12,7 @@ from src.parsers import (
 )
 from src.models import Company, FinancialStatement
 from src.core.reconstructor import StatementReconstructor
+from src.storage import PostgresStore
 
 
 class FinancialStatementEngine:
@@ -345,6 +346,7 @@ class FinancialStatementEngine:
                     "structural_failures": 0,
                     "context_warnings": 0,
                     "duplicate_candidate_rows": 0,
+                    "conflicting_candidate_rows": 0,
                     "subtotal_failures": 0,
                     "status": "fail",
                 },
@@ -381,4 +383,81 @@ class FinancialStatementEngine:
             "count": len(adsh_list),
             "status_counts": status_counts,
             "results": results,
+        }
+
+    def persist_filing_to_postgres(
+        self,
+        adsh: str,
+        db_config: Dict[str, str],
+        schema: str = "public",
+        statement_codes: Optional[List[str]] = None,
+        include_validation_report: bool = True,
+    ) -> Dict[str, object]:
+        """
+        Persist reconstructed filing tables (and optionally validation report) to PostgreSQL.
+
+        Args:
+            adsh: Accession number
+            db_config: psycopg2-compatible config (dbname, user, host, port, password?)
+            schema: Target PostgreSQL schema
+            statement_codes: Optional subset of statement codes to persist
+            include_validation_report: Whether to also persist validation report
+
+        Returns:
+            Summary with rows written and validation status
+        """
+        tables = self.reconstruct_filing_tables(adsh, statement_codes=statement_codes)
+        validation = (
+            self.validate_filing_reconstruction(adsh, statement_codes=statement_codes)
+            if include_validation_report
+            else None
+        )
+
+        with PostgresStore(config=db_config, schema=schema) as store:
+            rows_written = store.write_statement_tables(adsh, tables)
+            if validation is not None:
+                store.write_validation_report(adsh, validation)
+
+        return {
+            "adsh": adsh,
+            "schema": schema,
+            "rows_written": rows_written,
+            "validation_status": None if validation is None else validation.get("summary", {}).get("status"),
+        }
+
+    def persist_filings_batch_to_postgres(
+        self,
+        adsh_list: List[str],
+        db_config: Dict[str, str],
+        schema: str = "public",
+        statement_codes: Optional[List[str]] = None,
+        include_validation_report: bool = True,
+    ) -> Dict[str, object]:
+        """
+        Persist multiple filings to PostgreSQL and return aggregate write metrics.
+        """
+        total_rows = 0
+        statuses = {"pass": 0, "warn": 0, "fail": 0, "none": 0}
+        per_filing: Dict[str, object] = {}
+
+        for adsh in adsh_list:
+            result = self.persist_filing_to_postgres(
+                adsh=adsh,
+                db_config=db_config,
+                schema=schema,
+                statement_codes=statement_codes,
+                include_validation_report=include_validation_report,
+            )
+            per_filing[adsh] = result
+            total_rows += int(result["rows_written"])
+            status = result["validation_status"] or "none"
+            if status not in statuses:
+                status = "none"
+            statuses[status] += 1
+
+        return {
+            "count": len(adsh_list),
+            "total_rows_written": total_rows,
+            "status_counts": statuses,
+            "results": per_filing,
         }

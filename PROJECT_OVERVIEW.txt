@@ -1,109 +1,93 @@
-================================================================================
+===============================================================================
   SEC FINANCIAL STATEMENT RECONSTRUCTION ENGINE - PROJECT OVERVIEW
-================================================================================
+===============================================================================
 
-PROJECT STATUS: ✅ COMPLETE AND READY TO USE
+PROJECT STATUS: COMPLETE (WITH TABLE RECONSTRUCTION, VALIDATION, EXPORT, DB PERSISTENCE)
 
-================================================================================
-WHAT WAS BUILT
-================================================================================
+===============================================================================
+WHAT THIS PROJECT DOES
+===============================================================================
 
-A professional-grade Python engine for processing SEC XBRL filing data and 
-reconstructing financial statements.
+Processes SEC XBRL filing package files (`sub.txt`, `num.txt`, `pre.txt`, `tag.txt`)
+and reconstructs financial statements in both:
 
-Key Components:
-1. XBRL Data Parsers (4 classes)
-   - SubmissionParser - Company and filing metadata
-   - NumericParser - Financial fact values
-   - PresentationParser - Statement structure
-   - TagParser - Concept definitions
+1. Structured domain models (balance sheet / income statement / cash flow), and
+2. Row-accurate statement tables that preserve `pre.txt` ordering and indentation
 
-2. Data Models (8 Pydantic models)
-   - Company, BalanceSheet, IncomeStatement, CashFlowStatement
-   - FinancialStatement, XBRLContext, XBRLUnit, XBRLFact
+===============================================================================
+CURRENT CORE COMPONENTS
+===============================================================================
 
-3. Core Engine (2 main classes)
-   - FinancialStatementEngine - Orchestration and queries
-   - StatementReconstructor - Financial statement building
+1. Parsers (`src/parsers/`)
+   - `SubmissionParser`   : filing/company metadata from `sub.txt`
+   - `NumericParser`      : numeric facts from `num.txt`
+   - `PresentationParser` : statement structure from `pre.txt`
+   - `TagParser`          : labels/definitions from `tag.txt`
 
-4. Complete Documentation
-   - README.md - Full documentation
-   - SETUP.md - Installation guide
-   - API.md - Complete API reference
-   - BUILD_SUMMARY.md - Detailed summary
+2. Models (`src/models/`)
+   - Pydantic models for companies, statements, and XBRL entities
 
-5. Working Examples & Tests
-   - quickstart.py - Verification script
-   - examples.py - Usage examples
-   - test_engine.py - Unit tests
+3. Engine (`src/core/engine.py`)
+   - Unified API for queries, reconstruction, validation, export, and persistence
 
-================================================================================
+4. Reconstructor (`src/core/reconstructor.py`)
+   - Statement-table reconstruction (BS/IS/CF/EQ/CI)
+   - Context selection heuristics
+   - Sign handling and formatting
+   - Coverage and validation diagnostics
+
+5. Storage (`src/storage/postgres_store.py`)
+   - PostgreSQL upsert for reconstructed statement rows
+   - PostgreSQL upsert for validation reports (`JSONB`)
+
+===============================================================================
+KEY CAPABILITIES
+===============================================================================
+
+✓ Parse SEC XBRL package text files
+✓ Query companies / filings / facts
+✓ Reconstruct statement tables (BS, IS, CF, EQ, CI)
+✓ Generate coverage + validation reports
+✓ Export reconstructed statements to Excel (`.xlsx`)
+✓ Persist outputs to PostgreSQL
+✓ Run batch validation and batch persistence workflows
+
+===============================================================================
 GETTING STARTED
-================================================================================
+===============================================================================
 
-1. Install dependencies:
+1. Install dependencies
    python3 -m venv venv
    source venv/bin/activate
    pip install -r requirements.txt
 
-2. Run quick test:
+2. Verify setup
    python quickstart.py
 
-3. Run examples:
+3. Run examples
    python examples.py
 
-4. Run tests:
+4. Run tests
    pytest tests/ -v
 
-================================================================================
-KEY CAPABILITIES
-================================================================================
+===============================================================================
+IMPORTANT FILES
+===============================================================================
 
-✅ Parse multi-file XBRL packages
-✅ Query companies and filings
-✅ Filter by form type, date, CIK
-✅ Extract financial facts
-✅ Reconstruct balance sheets
-✅ Reconstruct income statements
-✅ Reconstruct cash flow statements
-✅ Type-safe data models
-✅ Data validation
-✅ Production-ready code
+- `README.md`                Project overview and usage examples
+- `API.md`                   API reference
+- `SETUP.md`                 Setup guide
+- `BUILD_SUMMARY.md`         Build and feature summary
+- `COMPLETION_SUMMARY.txt`   Completion/status summary
+- `quickstart.py`            Smoke test script
+- `examples.py`              Usage examples
 
-================================================================================
-PROJECT STRUCTURE
-================================================================================
+===============================================================================
+NOTES
+===============================================================================
 
-src/
-  ├── parsers/           XBRL data parsers
-  ├── models/            Pydantic data models
-  └── core/              Engine and reconstruction logic
+- Excel export requires `openpyxl` (already listed in `requirements.txt`)
+- PostgreSQL persistence requires a reachable PostgreSQL instance and uses
+  `psycopg2-binary` (already listed in `requirements.txt`)
 
-tests/                   Unit tests
-2024q4/                  Sample SEC XBRL data
-examples.py              Usage examples
-quickstart.py            Quick verification
-requirements.txt         Dependencies
-
-================================================================================
-DOCUMENTATION
-================================================================================
-
-README.md         - Project overview and usage
-SETUP.md          - Installation instructions
-API.md            - Complete API reference
-BUILD_SUMMARY.md  - Detailed build information
-
-================================================================================
-START HERE
-================================================================================
-
-1. python quickstart.py      (Verify installation)
-2. python examples.py         (See usage patterns)
-3. Read README.md             (Full documentation)
-4. Check API.md               (Complete API reference)
-5. Review examples.py         (Code examples)
-
-================================================================================
-STATUS: READY FOR PRODUCTION USE
-================================================================================
+===============================================================================

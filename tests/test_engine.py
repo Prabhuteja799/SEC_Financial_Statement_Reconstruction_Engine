@@ -220,6 +220,7 @@ class TestFinancialStatementEngine:
         summary = report['summary']
         assert summary['rows_total'] >= summary['rows_with_values']
         assert 0.0 <= summary['overall_coverage_ratio'] <= 1.0
+        assert 'conflicting_candidate_rows' in summary
         assert summary['status'] in {'pass', 'warn', 'fail'}
         # EQ supports multi-context patterns by design in phase 5.1.
         assert report['statements']['EQ']['context_coherence']['passed'] is True
@@ -258,6 +259,40 @@ class TestFinancialStatementEngine:
 
         total_statuses = sum(report['status_counts'].values())
         assert total_statuses == report['count'] == len(adsh_list)
+
+    def test_persist_filing_to_postgres_api(self, engine, monkeypatch):
+        """PostgreSQL persistence should return write summary."""
+        adsh = '0001628280-24-043777'
+
+        class FakeStore:
+            def __init__(self, config, schema="public"):
+                self.config = config
+                self.schema = schema
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, tb):
+                return None
+
+            def write_statement_tables(self, adsh, tables):
+                assert 'BS' in tables
+                return 123
+
+            def write_validation_report(self, adsh, report):
+                assert report['adsh'] == adsh
+
+        monkeypatch.setattr("src.core.engine.PostgresStore", FakeStore)
+
+        result = engine.persist_filing_to_postgres(
+            adsh=adsh,
+            db_config={"dbname": "sec_recon", "user": "tester", "host": "localhost", "port": "5432"},
+            schema="public",
+            include_validation_report=True,
+        )
+        assert result["adsh"] == adsh
+        assert result["rows_written"] == 123
+        assert result["validation_status"] in {"pass", "warn", "fail"}
 
 
 if __name__ == "__main__":

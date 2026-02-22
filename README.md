@@ -10,6 +10,10 @@ This engine processes SEC's XBRL (eXtensible Business Reporting Language) filing
 
 - **Multi-file XBRL Parser**: Handles sub.txt, num.txt, pre.txt, and tag.txt SEC XBRL files
 - **Financial Statement Reconstruction**: Automatically builds balance sheets, income statements, and cash flow statements
+- **Row-Accurate Statement Tables**: Rebuilds BS/IS/CF/EQ/CI tables in `pre.txt` order with mapped numeric values
+- **Validation & Coverage Reports**: Per-statement coverage metrics, context checks, and subtotal diagnostics
+- **Excel Export**: Export reconstructed filing statements to a multi-sheet workbook
+- **PostgreSQL Persistence**: Persist statement rows and validation reports for downstream analytics
 - **Data Validation**: Comprehensive integrity checking for filing data
 - **Flexible Querying**: Query financial data by company, filing, date range, or statement type
 - **Type-Safe Models**: Pydantic models for all financial entities
@@ -31,10 +35,13 @@ SEC_Financial_Statement_Reconstruction_Engine/
 │   │   ├── __init__.py
 │   │   ├── financial_entities.py   # Financial statement models
 │   │   └── xbrl_models.py          # XBRL-specific models
-│   └── core/                 # Core engine logic
+│   ├── core/                 # Core engine logic
+│   │   ├── __init__.py
+│   │   ├── engine.py               # Main orchestration engine
+│   │   └── reconstructor.py        # Statement reconstruction logic
+│   └── storage/              # Optional persistence backends
 │       ├── __init__.py
-│       ├── engine.py               # Main orchestration engine
-│       └── reconstructor.py        # Statement reconstruction logic
+│       └── postgres_store.py       # PostgreSQL persistence for outputs
 ├── tests/                    # Unit tests
 ├── 2024q4/                   # Sample XBRL data files
 │   ├── sub.txt              # Submission index
@@ -50,7 +57,7 @@ SEC_Financial_Statement_Reconstruction_Engine/
 ## Installation
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.9+
 - pip
 
 ### Setup
@@ -212,6 +219,54 @@ full_statement = reconstructor.reconstruct_full_statement(
 print(balance_sheet.assets)
 print(income_statement.revenues)
 print(cash_flow.operating_activities)
+```
+
+### Row-Accurate Statement Tables (Recommended for exports/analytics)
+
+```python
+from pathlib import Path
+from src.core.engine import FinancialStatementEngine
+
+engine = FinancialStatementEngine(Path("2024q4"))
+adsh = "0001628280-24-043777"
+
+# Reconstruct a single statement table in pre.txt line order
+bs_table = engine.reconstruct_statement_table(adsh, "BS")
+print(bs_table[["report", "line", "inpth", "label", "formatted_value"]].head(10))
+
+# Reconstruct the full filing package (BS, IS, CF, EQ, CI)
+tables = engine.reconstruct_filing_tables(adsh)
+print(tables.keys())
+```
+
+### Validation, Excel Export, and PostgreSQL Persistence
+
+```python
+from pathlib import Path
+from src.core.engine import FinancialStatementEngine
+
+engine = FinancialStatementEngine(Path("2024q4"))
+adsh = "0001628280-24-043777"
+
+# Validation report with coverage + diagnostics
+report = engine.validate_filing_reconstruction(adsh)
+print(report["summary"])
+
+# Excel export (requires openpyxl)
+workbook = engine.export_filing_to_excel(adsh, "SEC_FULL_STRUCTURED.xlsx")
+print(workbook)
+
+# Optional PostgreSQL persistence (requires psycopg2-binary + running DB)
+db_config = {
+    "dbname": "sec_recon",
+    "user": "postgres",
+    "host": "localhost",
+    "port": "5432",
+    # "password": "your-password",
+}
+
+result = engine.persist_filing_to_postgres(adsh, db_config=db_config, schema="public")
+print(result)
 ```
 
 ## Data Models

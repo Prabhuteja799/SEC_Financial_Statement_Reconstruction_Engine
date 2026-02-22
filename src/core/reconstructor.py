@@ -359,7 +359,7 @@ class StatementReconstructor:
         facts: pd.DataFrame,
         target_ddate: Optional[str],
         target_qtrs: Optional[int],
-    ) -> Tuple[Optional[pd.Series], int]:
+    ) -> Tuple[Optional[pd.Series], int, int]:
         """
         Select the best numeric fact for a statement row using row-aware context rules.
         """
@@ -371,7 +371,7 @@ class StatementReconstructor:
         if pd.notna(version):
             matches = matches[matches["version"] == version]
         if matches.empty:
-            return None, 0
+            return None, 0, 0
 
         target_end = pd.to_datetime(str(target_ddate), format="%Y%m%d", errors="coerce")
         desired_qtrs: Optional[int] = target_qtrs
@@ -405,7 +405,7 @@ class StatementReconstructor:
         matches["ddate_ts"] = pd.to_datetime(matches["ddate"], format="%Y%m%d", errors="coerce")
         matches = matches[matches["ddate_ts"].notna()]
         if matches.empty:
-            return None, 0
+            return None, 0, 0
 
         if pd.notna(target_end):
             if date_mode == "before":
@@ -447,9 +447,19 @@ class StatementReconstructor:
                 if not narrowed.empty:
                     matches = narrowed
 
+        # Prefer consolidated context candidates when available.
+        no_coreg = matches[matches["coreg"].isna() | (matches["coreg"] == "")]
+        if not no_coreg.empty:
+            matches = no_coreg
+
+        no_segments = matches[matches["segments"].isna() | (matches["segments"] == "")]
+        if not no_segments.empty:
+            matches = no_segments
+
         candidate_count = int(len(matches))
+        candidate_unique_values = int(matches["value"].dropna().nunique())
         chosen = self._choose_preferred_fact(matches, prefer_segments=(stmt_code != "EQ"))
-        return chosen, candidate_count
+        return chosen, candidate_count, candidate_unique_values
 
     @staticmethod
     def _choose_preferred_fact(
@@ -508,7 +518,7 @@ class StatementReconstructor:
         rows = []
         for _, srow in structure.iterrows():
             tag = srow["tag"]
-            chosen, candidate_count = self._select_fact_for_row(
+            chosen, candidate_count, candidate_unique_values = self._select_fact_for_row(
                 stmt_code=stmt_code,
                 srow=srow,
                 facts=facts,
@@ -560,6 +570,8 @@ class StatementReconstructor:
                     "segments": segments,
                     "coreg": coreg,
                     "candidate_count": candidate_count,
+                    "candidate_unique_values": candidate_unique_values,
+                    "candidate_conflict": bool(candidate_count > 1 and candidate_unique_values > 1),
                     "has_value": value is not None,
                 }
             )
@@ -607,6 +619,7 @@ class StatementReconstructor:
         structural_failures = 0
         context_warnings = 0
         duplicate_candidate_rows = 0
+        conflicting_candidate_rows = 0
         subtotal_failures = 0
 
         for code in codes:
@@ -641,14 +654,27 @@ class StatementReconstructor:
             if not table.empty and "candidate_count" in table.columns:
                 dup = table[table["candidate_count"] > 1][["line", "tag", "candidate_count"]]
                 duplicate_candidate_rows += int(len(dup))
+                if "candidate_conflict" in table.columns:
+                    conflicts = table[
+                        table["candidate_conflict"] == True
+                    ][["line", "tag", "candidate_count", "candidate_unique_values"]]
+                else:
+                    conflicts = pd.DataFrame(
+                        columns=["line", "tag", "candidate_count", "candidate_unique_values"]
+                    )
+                conflicting_candidate_rows += int(len(conflicts))
                 stmt_result["duplicate_candidates"] = {
                     "rows_with_multiple_candidates": int(len(dup)),
+                    "rows_with_conflicting_candidates": int(len(conflicts)),
                     "rows": dup.to_dict("records"),
+                    "conflicts": conflicts.to_dict("records"),
                 }
             else:
                 stmt_result["duplicate_candidates"] = {
                     "rows_with_multiple_candidates": 0,
+                    "rows_with_conflicting_candidates": 0,
                     "rows": [],
+                    "conflicts": [],
                 }
 
             missing_expected = []
@@ -688,11 +714,12 @@ class StatementReconstructor:
             "structural_failures": structural_failures,
             "context_warnings": context_warnings,
             "duplicate_candidate_rows": duplicate_candidate_rows,
+            "conflicting_candidate_rows": conflicting_candidate_rows,
             "subtotal_failures": subtotal_failures,
             "status": (
                 "fail"
                 if structural_failures > 0 or subtotal_failures > 0
-                else ("warn" if context_warnings > 0 or duplicate_candidate_rows > 0 else "pass")
+                else ("warn" if context_warnings > 0 or conflicting_candidate_rows > 0 else "pass")
             ),
         }
         return report

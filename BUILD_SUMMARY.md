@@ -2,7 +2,7 @@
 
 ## ✅ Project Complete
 
-A professional-grade, production-ready Python engine for SEC XBRL financial data processing has been successfully created.
+A professional-grade, production-ready Python engine for SEC XBRL financial data processing has been successfully created, including row-accurate table reconstruction, validation reporting, Excel export, and PostgreSQL persistence.
 
 ---
 
@@ -39,6 +39,14 @@ A professional-grade, production-ready Python engine for SEC XBRL financial data
   - Income statement reconstruction
   - Cash flow statement reconstruction
   - Full statement package assembly
+  - Row-accurate statement tables (BS / IS / CF / EQ / CI)
+  - Coverage + validation diagnostics
+
+#### 4. **Storage Backends** (`src/storage/`)
+- **PostgresStore**: PostgreSQL persistence backend
+  - Upserts reconstructed statement rows
+  - Upserts validation reports (`JSONB`)
+  - Creates schema/tables if missing
 
 ---
 
@@ -101,6 +109,10 @@ Complete test suite including:
 - PresentationParser tests
 - TagParser tests
 - Engine integration tests
+- Statement table reconstruction tests
+- Excel export tests
+- Validation report tests
+- PostgreSQL persistence API tests (mocked store)
 
 **Run with:** `pytest tests/ -v`
 
@@ -122,10 +134,13 @@ SEC_Financial_Statement_Reconstruction_Engine/
 │   │   ├── __init__.py
 │   │   ├── financial_entities.py # Balance sheet, income statement, etc.
 │   │   └── xbrl_models.py        # XBRL-specific models
-│   └── core/                     # Core engine
+│   ├── core/                     # Core engine
+│   │   ├── __init__.py
+│   │   ├── engine.py             # Main orchestration engine
+│   │   └── reconstructor.py      # Statement reconstruction + validation
+│   └── storage/                  # Persistence backends
 │       ├── __init__.py
-│       ├── engine.py             # Main orchestration engine
-│       └── reconstructor.py      # Statement reconstruction logic
+│       └── postgres_store.py     # PostgreSQL persistence
 │
 ├── tests/                         # Unit tests
 │   └── test_engine.py
@@ -169,6 +184,21 @@ SEC_Financial_Statement_Reconstruction_Engine/
 - ✅ Cash flow statement assembly
 - ✅ Full statement package
 - ✅ Automatic concept organization
+- ✅ Row-accurate table reconstruction (BS/IS/CF/EQ/CI)
+- ✅ Formatted display values with financial parentheses
+
+### Validation / QA
+- ✅ Per-statement coverage metrics
+- ✅ Context coherence checks
+- ✅ Duplicate/conflict candidate diagnostics
+- ✅ Subtotal consistency checks
+- ✅ Batch validation across filings
+
+### Export / Persistence
+- ✅ Excel workbook export (`.xlsx`)
+- ✅ PostgreSQL statement-row persistence
+- ✅ PostgreSQL validation report persistence (`JSONB`)
+- ✅ Batch persistence helpers
 
 ### Architecture
 - ✅ Modular, extensible design
