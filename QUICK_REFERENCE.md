@@ -9,6 +9,19 @@ pip install -r requirements.txt
 python quickstart.py
 ```
 
+## ✅ Proof Workflow (Recommended)
+
+```bash
+# Core tests
+pytest tests/ -v
+
+# Multi-filing validation scorecard
+python tools/prove_exactness.py --limit 10 --unique-cik --save-per-filing
+
+# Strict golden regression (after approving golden CSVs)
+pytest tests/test_golden_regression.py -v
+```
+
 ## 📚 Documentation Map
 
 | Document | Purpose |
@@ -16,6 +29,7 @@ python quickstart.py
 | **README.md** | Complete project guide |
 | **SETUP.md** | Installation instructions |
 | **API.md** | Complete API reference |
+| **golden/README.md** | Golden-file proof workflow |
 | **examples.py** | Working code examples |
 | **quickstart.py** | Verify installation |
 
@@ -30,6 +44,8 @@ companies = engine.get_all_companies()
 company = engine.get_company_info('789460')
 filings = engine.get_filings_for_company('789460')
 facts = engine.get_numeric_facts(adsh)
+report = engine.validate_filing_reconstruction(adsh)
+tables = engine.reconstruct_filing_tables(adsh)
 ```
 
 ### StatementReconstructor
@@ -85,6 +101,9 @@ print(full.income_statement.revenues)
 - Filter by multiple criteria
 - Extract financial facts
 - Reconstruct financial statements
+- Reconstruct row-accurate statement tables (BS/IS/CF/EQ/CI)
+- Validate filings across multiple filings (proof scorecards)
+- Golden regression against approved outputs
 - Type-safe data access
 - Comprehensive documentation
 
@@ -94,11 +113,12 @@ print(full.income_statement.revenues)
 2. **How to use?** → examples.py or README.md
 3. **API details?** → API.md
 4. **Quick test?** → `python quickstart.py`
+5. **Proof workflow?** → `golden/README.md` + `tools/prove_exactness.py`
 
 ## 🎯 Next Steps
 
 1. Run `python quickstart.py`
-2. Review `README.md`
-3. Run `python examples.py`
-4. Check `API.md` for details
-5. Start building!
+2. Run `pytest tests/ -v`
+3. Run `python tools/prove_exactness.py --limit 10 --unique-cik --save-per-filing`
+4. Review `README.md` and `golden/README.md`
+5. Start expanding golden coverage

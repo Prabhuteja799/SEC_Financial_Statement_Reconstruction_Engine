@@ -1,0 +1,12 @@
+report,line,inpth,tag,label,formatted_value,ddate,qtrs
+4,2,0,GeneralAndAdministrativeExpense,General and administration,"1,059",20241130,1
+4,3,0,ProfessionalFees,Professional,"3,500",20241130,1
+4,4,0,OperatingExpenses,Total operating expenses,"4,559",20241130,1
+4,5,0,OperatingIncomeLoss,Net loss from operations,"(4,559)",20241130,1
+4,7,0,InterestExpense,Interest expense,"(7,368)",20241130,1
+4,8,0,OtherNonoperatingIncomeExpense,Total other expense,"(7,368)",20241130,1
+4,9,0,IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest,Net loss before taxes,"(11,927)",20241130,1
+4,10,0,IncomeTaxExpenseBenefit,Provision for income taxes,0,20241130,1
+4,11,0,NetIncomeLoss,Net loss,"(11,927)",20241130,1
+4,12,0,EarningsPerShareDiluted,Net Loss Per Common Share - Basic and Diluted,0,20241130,1
+4,13,0,WeightedAverageNumberOfDilutedSharesOutstanding,Weighted Average Common Shares Outstanding,"60,647,380",20241130,1

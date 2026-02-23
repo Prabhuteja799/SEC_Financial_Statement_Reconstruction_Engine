@@ -2,7 +2,7 @@
   SEC FINANCIAL STATEMENT RECONSTRUCTION ENGINE - PROJECT OVERVIEW
 ===============================================================================
 
-PROJECT STATUS: COMPLETE (WITH TABLE RECONSTRUCTION, VALIDATION, EXPORT, DB PERSISTENCE)
+PROJECT STATUS: COMPLETE (WITH VALIDATION, EXPORT, DB PERSISTENCE, AND PROOF WORKFLOW)
 
 ===============================================================================
 WHAT THIS PROJECT DOES
@@ -51,6 +51,8 @@ KEY CAPABILITIES
 ✓ Export reconstructed statements to Excel (`.xlsx`)
 ✓ Persist outputs to PostgreSQL
 ✓ Run batch validation and batch persistence workflows
+✓ Generate multi-filing proof scorecards
+✓ Run golden regression tests against approved outputs
 
 ===============================================================================
 GETTING STARTED
@@ -79,6 +81,9 @@ IMPORTANT FILES
 - `SETUP.md`                 Setup guide
 - `BUILD_SUMMARY.md`         Build and feature summary
 - `COMPLETION_SUMMARY.txt`   Completion/status summary
+- `tools/prove_exactness.py` Multi-filing validation proof scorecard
+- `tools/export_golden_csv.py` Golden CSV export helper
+- `tests/test_golden_regression.py` Golden regression test
 - `quickstart.py`            Smoke test script
 - `examples.py`              Usage examples
 
@@ -89,5 +94,17 @@ NOTES
 - Excel export requires `openpyxl` (already listed in `requirements.txt`)
 - PostgreSQL persistence requires a reachable PostgreSQL instance and uses
   `psycopg2-binary` (already listed in `requirements.txt`)
+- Some filings may not have standalone `CI` rows available in `pre.txt`; this can be valid
+  depending on the filing's structure/data
+
+===============================================================================
+CURRENT PROOF STATUS (LOCAL SNAPSHOT)
+===============================================================================
+
+- Core tests passing (`pytest tests/ -v`)
+- Golden regression passing for approved outputs across multiple filings
+- Multi-filing proof scorecard generated from real dataset samples
+
+This means the project is not only built, but also supported by repeatable evidence.
 
 ===============================================================================

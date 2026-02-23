@@ -1,0 +1,39 @@
+report,line,inpth,tag,label,formatted_value,ddate,qtrs
+2,3,0,CashAndCashEquivalentsAtCarryingValue,Cash and cash equivalents,"373,800,000",20240930,0
+2,4,0,AccountsReceivableNetCurrent,"Accounts receivable, net of allowance for credit losses of $20.2 million and $18.3 million as of September 30, 2024 and December 31, 2023, respectively","2,476,100,000",20240930,0
+2,5,0,InventoryNet,Inventories,"619,900,000",20240930,0
+2,6,0,PrepaidExpenseCurrent,Prepaid expenses,"89,800,000",20240930,0
+2,7,0,DerivativeAssetsCurrent,"Short-term derivative assets, net","188,200,000",20240930,0
+2,8,0,OtherAssetsCurrent,Other current assets,"423,000,000",20240930,0
+2,9,0,AssetsCurrent,Total current assets,"4,170,700,000",20240930,0
+2,10,0,PropertyPlantAndEquipmentAndFinanceLeaseRightOfUseAssetAfterAccumulatedDepreciationAndAmortization,"Property and equipment, net","505,600,000",20240930,0
+2,11,0,Goodwill,Goodwill,"1,181,700,000",20240930,0
+2,12,0,IntangibleAssetsNetExcludingGoodwill,"Identifiable intangible assets, net","266,300,000",20240930,0
+2,13,0,OtherAssetsNoncurrent,Other non-current assets,"860,300,000",20240930,0
+2,14,0,Assets,Total assets,"6,984,600,000",20240930,0
+2,17,0,LongTermDebtAndCapitalLeaseObligationsCurrent,"Long-Term Debt and Lease Obligation, Current","85,000,000",20240930,0
+2,18,0,AccountsPayableCurrent,Accounts payable,"2,750,800,000",20240930,0
+2,19,0,DerivativeLiabilitiesCurrent,"Short-term derivative liabilities, net","90,400,000",20240930,0
+2,20,0,AccruedLiabilitiesCurrent,Accrued expenses and other current liabilities,"657,000,000",20240930,0
+2,21,0,LiabilitiesCurrent,Total current liabilities,"3,583,100,000",20240930,0
+2,22,0,LongTermDebtAndCapitalLeaseObligations,Long-term debt,"798,000,000",20240930,0
+2,23,0,OtherLiabilitiesNoncurrent,Other long-term liabilities,"552,400,000",20240930,0
+2,24,0,Liabilities,Total liabilities,"4,933,600,000",20240930,0
+2,25,0,CommitmentsAndContingencies,Commitments and contingencies,,20240930,0
+2,28,0,PreferredStockValue,"Preferred stock, $1.00 par value; 0.1 shares authorized, none issued",0,20240930,0
+2,29,0,CommonStockValue,"Common stock, $0.01 par value; 100.0 shares authorized, 58.1 and 59.8 issued and outstanding as of September 30, 2024 and December 31, 2023, respectively","600,000",20240930,0
+2,30,0,AdditionalPaidInCapitalCommonStock,Capital in excess of par value,"64,300,000",20240930,0
+2,31,0,RetainedEarningsAccumulatedDeficit,Retained earnings,"2,120,600,000",20240930,0
+2,32,0,AccumulatedOtherComprehensiveIncomeLossNetOfTax,Accumulated other comprehensive income (loss),"(141,100,000)",20240930,0
+2,33,0,StockholdersEquity,Total World Kinect shareholders' equity,"2,044,400,000",20240930,0
+2,34,0,MinorityInterest,Noncontrolling interest,"6,600,000",20240930,0
+2,35,0,StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,Total equity,"2,051,000,000",20240930,0
+2,36,0,LiabilitiesAndStockholdersEquity,Total liabilities and equity,"6,984,600,000",20240930,0
+3,1,1,AllowanceForDoubtfulAccountsReceivableCurrent,Allowance for credit losses,"20,200,000",20240930,0
+3,2,1,PreferredStockParOrStatedValuePerShare,"Preferred stock, par value (in dollars per share)",1,20240930,0
+3,3,1,PreferredStockSharesAuthorized,"Preferred stock, shares authorized (in shares)","100,000",20240930,0
+3,4,1,PreferredStockSharesIssued,"Preferred stock, shares issued (in shares)",0,20240930,0
+3,5,1,CommonStockParOrStatedValuePerShare,"Common stock, par value (in dollars per share)",0.01,20240930,0
+3,6,1,CommonStockSharesAuthorized,"Common stock, shares authorized (in shares)","100,000,000",20240930,0
+3,7,1,CommonStockSharesIssued,"Common stock, shares issued (in shares)","58,100,000",20240930,0
+3,8,1,CommonStockSharesOutstanding,"Common stock, shares outstanding (in shares)","58,100,000",20240930,0

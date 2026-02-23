@@ -1,0 +1,253 @@
+{
+  "adsh": "0001483510-24-000014",
+  "statements": {
+    "BS": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 44,
+        "rows_reconstructed": 44,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 0,
+        "rows_with_conflicting_candidates": 0,
+        "rows": [],
+        "conflicts": []
+      },
+      "coverage": {
+        "stmt": "BS",
+        "rows_total": 44,
+        "rows_with_values": 43,
+        "rows_missing_values": 1,
+        "coverage_ratio": 0.9772727272727273,
+        "missing_tags": [
+          "CommitmentsAndContingencies"
+        ],
+        "expected_missing_tags": [
+          "CommitmentsAndContingencies"
+        ],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240131",
+            "qtrs": 0
+          }
+        ],
+        "rule": "single_context"
+      },
+      "subtotal_checks": [
+        {
+          "name": "assets_equals_liabilities_and_equity",
+          "passed": true,
+          "delta": 0.0
+        }
+      ]
+    },
+    "IS": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 19,
+        "rows_reconstructed": 19,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 0,
+        "rows_with_conflicting_candidates": 0,
+        "rows": [],
+        "conflicts": []
+      },
+      "coverage": {
+        "stmt": "IS",
+        "rows_total": 19,
+        "rows_with_values": 19,
+        "rows_missing_values": 0,
+        "coverage_ratio": 1.0,
+        "missing_tags": [],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240131",
+            "qtrs": 4
+          }
+        ],
+        "rule": "single_context"
+      },
+      "subtotal_checks": []
+    },
+    "CF": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 36,
+        "rows_reconstructed": 36,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 0,
+        "rows_with_conflicting_candidates": 0,
+        "rows": [],
+        "conflicts": []
+      },
+      "coverage": {
+        "stmt": "CF",
+        "rows_total": 36,
+        "rows_with_values": 36,
+        "rows_missing_values": 0,
+        "coverage_ratio": 1.0,
+        "missing_tags": [],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240131",
+            "qtrs": 4
+          },
+          {
+            "ddate": "20230131",
+            "qtrs": 0
+          },
+          {
+            "ddate": "20240131",
+            "qtrs": 0
+          }
+        ],
+        "rule": "cf_duration_plus_begin_end_instant"
+      },
+      "subtotal_checks": [
+        {
+          "name": "cash_rollforward_consistency",
+          "passed": true,
+          "delta": 0.0,
+          "delta_with_fx": 0.0,
+          "used_formula": "direct"
+        }
+      ]
+    },
+    "EQ": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 14,
+        "rows_reconstructed": 14,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 2,
+        "rows_with_conflicting_candidates": 1,
+        "rows": [
+          {
+            "line": 17,
+            "tag": "StockIssuedDuringPeriodSharesShareBasedCompensation",
+            "candidate_count": 2
+          },
+          {
+            "line": 20,
+            "tag": "TreasuryStockSharesAcquired",
+            "candidate_count": 2
+          }
+        ],
+        "conflicts": [
+          {
+            "line": 17,
+            "tag": "StockIssuedDuringPeriodSharesShareBasedCompensation",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          }
+        ]
+      },
+      "coverage": {
+        "stmt": "EQ",
+        "rows_total": 14,
+        "rows_with_values": 14,
+        "rows_missing_values": 0,
+        "coverage_ratio": 1.0,
+        "missing_tags": [],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240131",
+            "qtrs": 0
+          },
+          {
+            "ddate": "20240131",
+            "qtrs": 4
+          },
+          {
+            "ddate": "20230131",
+            "qtrs": 4
+          }
+        ],
+        "rule": "eq_multi_context_allowed"
+      },
+      "subtotal_checks": []
+    },
+    "CI": {
+      "structural_parity": {
+        "applicable": false,
+        "passed": true,
+        "reason": "No structure rows in pre.txt for this statement code."
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 0,
+        "rows_with_conflicting_candidates": 0,
+        "rows": [],
+        "conflicts": []
+      },
+      "coverage": {
+        "stmt": "CI",
+        "rows_total": 1,
+        "rows_with_values": 1,
+        "rows_missing_values": 0,
+        "coverage_ratio": 1.0,
+        "missing_tags": [],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240131",
+            "qtrs": 4
+          }
+        ],
+        "rule": "single_context"
+      },
+      "subtotal_checks": []
+    }
+  },
+  "summary": {
+    "statements_checked": [
+      "BS",
+      "IS",
+      "CF",
+      "EQ",
+      "CI"
+    ],
+    "rows_total": 114,
+    "rows_with_values": 113,
+    "overall_coverage_ratio": 0.9912280701754386,
+    "structural_failures": 0,
+    "context_warnings": 0,
+    "duplicate_candidate_rows": 2,
+    "conflicting_candidate_rows": 1,
+    "subtotal_failures": 0,
+    "status": "warn"
+  }
+}

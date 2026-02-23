@@ -1,0 +1,40 @@
+report,line,inpth,tag,label,formatted_value,ddate,qtrs
+7,2,0,ProfitLoss,Net income (loss) including noncontrolling interest,"169,100,000",20240930,3
+7,4,0,UnrealizedGainLossOnDerivatives,Unrealized (gain) loss on derivatives,"32,000,000",20240930,3
+7,5,0,DisposalGroupNotDiscontinuedOperationGainLossOnDisposal,(Gain) loss on sale of business,"(96,000,000)",20240930,3
+7,6,0,DepreciationAndAmortization,Depreciation and amortization,"75,300,000",20240930,3
+7,7,0,OperatingLeaseRightOfUseAssetAmortizationExpense,Noncash operating lease expense,"24,200,000",20240930,3
+7,8,0,ProvisionForDoubtfulAccounts,Provision for credit losses,"5,500,000",20240930,3
+7,9,0,ShareBasedCompensation,Share-based payment award compensation costs,"17,700,000",20240930,3
+7,10,0,DeferredIncomeTaxExpenseBenefit,Deferred income tax expense (benefit),"(18,000,000)",20240930,3
+7,11,0,ForeignCurrencyTransactionGainLossUnrealized,"Unrealized foreign currency (gains) losses, net","19,400,000",20240930,3
+7,12,0,OtherNoncashIncomeExpense,Other,"20,700,000",20240930,3
+7,14,0,IncreaseDecreaseInAccountsReceivable,"Accounts receivable, net","252,200,000",20240930,3
+7,15,0,IncreaseDecreaseInInventories,Inventories,"43,100,000",20240930,3
+7,16,0,IncreaseDecreaseInPrepaidExpense,Prepaid expenses,"(16,400,000)",20240930,3
+7,17,0,IncreaseDecreaseInOtherCurrentAssets,Other current assets,"3,100,000",20240930,3
+7,18,0,IncreaseDecreaseCashCollateralFromCounterparties,Cash collateral with counterparties,"76,700,000",20240930,3
+7,19,0,IncreaseDecreaseInOtherNoncurrentAssets,Other non-current assets,"(84,900,000)",20240930,3
+7,20,0,ChangeInDerivativeAssetsAndLiabilitiesNet,"Change in derivative assets and liabilities, net","(5,800,000)",20240930,3
+7,21,0,IncreaseDecreaseInAccountsPayable,Accounts payable,"(353,600,000)",20240930,3
+7,22,0,IncreaseDecreaseInAccruedLiabilities,Accrued expenses and other current liabilities,"(43,200,000)",20240930,3
+7,23,0,IncreaseDecreaseInOtherNoncurrentLiabilities,Other long-term liabilities,"18,500,000",20240930,3
+7,24,0,NetCashProvidedByUsedInOperatingActivities,Net cash provided by (used in) operating activities,"139,600,000",20240930,3
+7,26,0,ProceedsFromDivestitureOfBusinessesNetOfCashDivested,"Proceeds from divestiture of businesses, net of cash divested","200,100,000",20240930,3
+7,27,0,PaymentsToAcquirePropertyPlantAndEquipment,Capital expenditures,"(50,300,000)",20240930,3
+7,28,0,PaymentsForProceedsFromOtherInvestingActivities,"Other investing activities, net","(50,900,000)",20240930,3
+7,29,0,NetCashProvidedByUsedInInvestingActivities,Net cash provided by (used in) investing activities,"98,900,000",20240930,3
+7,31,0,ProceedsFromIssuanceOfDebt,Borrowings of debt,"2,747,000,000",20240930,3
+7,32,0,RepaymentsOfDebt,Repayments of debt,"(2,766,100,000)",20240930,3
+7,33,0,ProceedsFromConvertibleDebt,Issuance of Convertible Notes,0,20240930,3
+7,34,0,PaymentsOfDividendsCommonStock,Dividends paid on common stock,"(28,600,000)",20240930,3
+7,35,0,PaymentsForRepurchaseOfCommonStock,Repurchases of common stock,"(57,400,000)",20240930,3
+7,36,0,PaymentsForDerivativeInstrumentFinancingActivities,Purchase of convertible note hedges,0,20240930,3
+7,37,0,ProceedsFromIssuanceOfWarrants,Sale of warrants,0,20240930,3
+7,38,0,PaymentForContingentConsiderationLiabilityFinancingActivities,Payments of deferred consideration for acquisitions,"(51,300,000)",20240930,3
+7,39,0,ProceedsFromPaymentsForOtherFinancingActivities,"Other financing activities, net","(6,100,000)",20240930,3
+7,40,0,NetCashProvidedByUsedInFinancingActivities,Net cash provided by (used in) financing activities,"(162,600,000)",20240930,3
+7,41,0,EffectOfExchangeRateOnCashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents,Effect of exchange rate changes on cash and cash equivalents,"(6,400,000)",20240930,3
+7,42,0,CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect,Net increase (decrease) in cash and cash equivalents,"69,500,000",20240930,3
+7,43,0,CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents,"Cash and cash equivalents, as of the beginning of the period","304,300,000",20231231,0
+7,44,0,CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents,"Cash and cash equivalents, as of the end of the period","373,800,000",20240930,0

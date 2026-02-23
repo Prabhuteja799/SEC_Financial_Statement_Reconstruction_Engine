@@ -1,0 +1,29 @@
+report,line,inpth,tag,label,formatted_value,ddate,qtrs
+6,2,0,ProfitLoss,Net (loss),"(199,155)",20240930,3
+6,3,0,DepreciationDepletionAndAmortization,Depreciation and amortization,0,20240930,3
+6,4,0,ExtinguishmentOfDebtGainLossIncomeTax,Loss on the extinguishment of debt,,20240930,3
+6,5,0,StockbasedCompensationForServices,Stock-based compensation for services,0,20240930,3
+6,6,0,DerivativeGainOnDerivative,Change in the fair market value of derivative liability,0,20240930,3
+6,7,0,ImpairmentOfIntangibleAssetsFinitelived,Impairment of fixed assets,"34,221",20240930,3
+6,8,0,IssuanceOfFinancingCommitmentShares,Issuance of financing commitment shares,"1,500",20240930,3
+6,9,0,IssuanceOfFinancingCommitmentWarrants,Issuance of financing commitment warrants,0,20240930,3
+6,10,0,SaleOfEquipment,Sale of equipment,"13,019",20240930,3
+6,12,0,IncreaseDecreaseInAccountsReceivable,Accounts receivable,"1,741",20240930,3
+6,13,0,IncreaseDecreaseInInventories,Inventory,"10,698",20240930,3
+6,14,0,IncreaseDecreaseInAccountsPayable,Accounts payable,"22,289",20240930,3
+6,15,0,IncreaseDecreaseInOtherOperatingAssets,Other assets,"2,745",20240930,3
+6,16,0,IncreaseDecreaseInAccruedLiabilities,Accrued liabilities,"56,494",20240930,3
+6,17,0,NetCashProvidedByUsedInOperatingActivities,Net cash (used in) operating activities,"(56,448)",20240930,3
+6,19,0,ProceedsFromLinesOfCredit,Proceeds from the Company's equity line of credit,"32,415",20240930,3
+6,20,0,ProceedsFromNotesPayable,Proceeds from notes payable,0,20240930,3
+6,21,0,RepaymentsOfNotesPayable,Repayment of notes payable,0,20240930,3
+6,22,0,ProceedsFromConvertibleDebt,Proceeds from convertible notes,0,20240930,3
+6,23,0,RepaymentsOfConvertibleDebt,Repayment of convertible notes,0,20240930,3
+6,24,0,NetCashProvidedByUsedInFinancingActivities,Net cash provided by financing activities,"32,415",20240930,3
+6,25,0,CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect,Net (decrease) in cash and cash equivalents,"(24,033)",20240930,3
+6,26,0,CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents,Cash and cash equivalents at beginning of period,"24,842",20231231,0
+6,27,0,CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents,Cash and cash equivalents at end of period,810,20240930,0
+6,29,0,InterestPaidNet,Cash paid for interest,0,20240930,3
+6,30,0,IncomeTaxesPaidNet,Cash paid for income taxes,0,20240930,3
+6,32,0,ConversionOfConvertibleNotesAndAccruedInterestIntoCommonStock,Conversion of convertible notes and accrued interest into common stock,"63,934",20240930,3
+6,33,0,ReductionOfAccountsPayableAndAccruedInterestWithCommonStock,Reduction of accounts payable and accrued interest with common stock,0,20240930,3

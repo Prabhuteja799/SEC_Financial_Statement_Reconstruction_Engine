@@ -1,0 +1,12 @@
+report,line,inpth,tag,label,formatted_value,ddate,qtrs
+6,2,0,ProfitLoss,Net loss,"(36,913)",20241130,2
+6,5,0,IncreaseDecreaseInAccountsPayable,Accounts payable,"4,417",20241130,2
+6,6,0,IncreaseDecreaseInInterestPayableNet,Accrued interest,"14,815",20241130,2
+6,7,0,NetCashProvidedByUsedInOperatingActivities,Net Cash Used in Operating Activities,"(17,681)",20241130,2
+6,9,0,ProceedsFromContributionsFromAffiliates,Advancement from director,"17,681",20241130,2
+6,10,0,NetCashProvidedByUsedInFinancingActivities,Net Cash Provided by Financing Activities,"17,681",20241130,2
+6,11,0,CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect,Net Change in Cash and Cash Equivalents,0,20241130,2
+6,12,0,CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents,"Cash and Cash Equivalents, beginning of period",0,20240531,0
+6,13,0,CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents,"Cash and Cash Equivalents, end of period",0,20241130,0
+6,15,0,InterestPaidNet,Cash paid for interest,0,20241130,2
+6,16,0,IncomeTaxesPaidNet,Cash paid for taxes,0,20241130,2

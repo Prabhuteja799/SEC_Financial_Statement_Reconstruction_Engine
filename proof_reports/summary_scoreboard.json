@@ -1,0 +1,41 @@
+{
+  "batch_count": 10,
+  "status_counts": {
+    "pass": 3,
+    "warn": 6,
+    "fail": 1
+  },
+  "avg_statement_coverage_ratio": 0.8500967684551238,
+  "min_statement_coverage_ratio": 0.0,
+  "aggregate_structural_failures": 0,
+  "aggregate_context_warnings": 4,
+  "aggregate_subtotal_failures": 1,
+  "aggregate_duplicate_candidate_rows": 52,
+  "per_statement_health": {
+    "BS": {
+      "pass_count": 10,
+      "total_count": 10,
+      "pass_ratio": 1.0
+    },
+    "CF": {
+      "pass_count": 6,
+      "total_count": 10,
+      "pass_ratio": 0.6
+    },
+    "CI": {
+      "pass_count": 10,
+      "total_count": 10,
+      "pass_ratio": 1.0
+    },
+    "EQ": {
+      "pass_count": 10,
+      "total_count": 10,
+      "pass_ratio": 1.0
+    },
+    "IS": {
+      "pass_count": 9,
+      "total_count": 10,
+      "pass_ratio": 0.9
+    }
+  }
+}

@@ -1,0 +1,15 @@
+report,line,inpth,tag,label,formatted_value,ddate,qtrs
+6,12,0,CommonStockSharesIssued,Beginning balance (in shares),"62,000,000",20221231,0
+6,13,0,StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,Beginning balance,"1,990,700,000",20221231,0
+6,14,0,ProfitLoss,Net income (loss),"35,000,000",20240930,1
+6,15,0,DividendsCash,Cash dividends declared,"(9,900,000)",20240930,1
+6,16,0,AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue,Amortization of share-based payment awards,"5,900,000",20240930,1
+6,17,0,StockIssuedDuringPeriodSharesShareBasedCompensation,Issuance (cancellation) of common stock related to share-based payment awards (in shares),"300,000",20240630,1
+6,18,0,ShareRepurchasesRelatedToEmployeeStockBasedCompensationAwardsValue,Purchases of common stock tendered by employees to satisfy the required withholding taxes related to share-based payment awards,"(100,000)",20240930,1
+6,19,0,OtherComprehensiveIncomeLossNetOfTax,Other comprehensive income (loss),"11,200,000",20240930,1
+6,20,0,ConvertibleNoteHedgeTransactions,Convertible note hedge transactions,"(70,500,000)",20230630,1
+6,21,0,AdjustmentsToAdditionalPaidInCapitalWarrantIssued,"Adjustments to Additional Paid in Capital, Warrant Issued","40,000,000",20230630,1
+6,22,0,CommonStockSharesIssued,Ending balance (in shares),"58,100,000",20240930,0
+6,23,0,StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,Ending balance,"2,051,000,000",20240930,0
+6,24,0,StockRepurchasedDuringPeriodShares,Purchases of common stock (in shares),"(1,000,000)",20240930,1
+6,25,0,StockRepurchasedDuringPeriodValue,"Stock Repurchased During Period, Value","(28,600,000)",20240930,1

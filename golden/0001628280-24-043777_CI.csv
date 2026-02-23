@@ -1,0 +1,8 @@
+report,line,inpth,tag,label,formatted_value,ddate,qtrs
+0,1,0,ComprehensiveIncomeNetOfTax,"Comprehensive Income (Loss), Net of Tax, Attributable to Parent","44,700,000",20240930,1
+0,2,0,ComprehensiveIncomeNetOfTaxAttributableToNoncontrollingInterest,"Comprehensive Income (Loss), Net of Tax, Attributable to Noncontrolling Interest","1,500,000",20240930,1
+0,3,0,ComprehensiveIncomeNetOfTaxIncludingPortionAttributableToNoncontrollingInterest,"Comprehensive Income (Loss), Net of Tax, Including Portion Attributable to Noncontrolling Interest","46,200,000",20240930,1
+0,4,0,OtherComprehensiveIncomeLossCashFlowHedgeGainLossAfterReclassificationAndTax,"Other Comprehensive Income (Loss), Cash Flow Hedge, Gain (Loss), after Reclassification and Tax","(5,900,000)",20240930,1
+0,5,0,OtherComprehensiveIncomeLossCashFlowHedgeGainLossReclassificationTax,"Other Comprehensive Income (Loss), Cash Flow Hedge, Gain (Loss), Reclassification, Tax","(2,100,000)",20240930,1
+0,6,0,OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationAdjustmentNetOfTax,"Other Comprehensive Income (Loss), Foreign Currency Transaction and Translation Adjustment, Net of Tax","17,100,000",20240930,1
+0,7,0,OtherComprehensiveIncomeLossNetOfTax,"Other Comprehensive Income (Loss), Net of Tax","11,200,000",20240930,1

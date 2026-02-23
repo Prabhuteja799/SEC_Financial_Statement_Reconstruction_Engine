@@ -1,0 +1,69 @@
+{
+  "cases": [
+    {
+      "adsh": "0001628280-24-043777",
+      "stmt": "BS",
+      "expected_csv": "golden/0001628280-24-043777_BS.csv"
+    },
+    {
+      "adsh": "0001628280-24-043777",
+      "stmt": "IS",
+      "expected_csv": "golden/0001628280-24-043777_IS.csv"
+    },
+    {
+      "adsh": "0001628280-24-043777",
+      "stmt": "CF",
+      "expected_csv": "golden/0001628280-24-043777_CF.csv"
+    },
+    {
+      "adsh": "0001628280-24-043777",
+      "stmt": "EQ",
+      "expected_csv": "golden/0001628280-24-043777_EQ.csv"
+    },
+    {
+      "adsh": "0001628280-24-043777",
+      "stmt": "CI",
+      "expected_csv": "golden/0001628280-24-043777_CI.csv"
+    },
+    {
+      "adsh": "0001640334-24-001969",
+      "stmt": "BS",
+      "expected_csv": "golden/0001640334-24-001969_BS.csv"
+    },
+    {
+      "adsh": "0001640334-24-001969",
+      "stmt": "IS",
+      "expected_csv": "golden/0001640334-24-001969_IS.csv"
+    },
+    {
+      "adsh": "0001640334-24-001969",
+      "stmt": "CF",
+      "expected_csv": "golden/0001640334-24-001969_CF.csv"
+    },
+    {
+      "adsh": "0001640334-24-001969",
+      "stmt": "EQ",
+      "expected_csv": "golden/0001640334-24-001969_EQ.csv"
+    },
+    {
+      "adsh": "0001683168-24-009066",
+      "stmt": "BS",
+      "expected_csv": "golden/0001683168-24-009066_BS.csv"
+    },
+    {
+      "adsh": "0001683168-24-009066",
+      "stmt": "IS",
+      "expected_csv": "golden/0001683168-24-009066_IS.csv"
+    },
+    {
+      "adsh": "0001683168-24-009066",
+      "stmt": "CF",
+      "expected_csv": "golden/0001683168-24-009066_CF.csv"
+    },
+    {
+      "adsh": "0001683168-24-009066",
+      "stmt": "EQ",
+      "expected_csv": "golden/0001683168-24-009066_EQ.csv"
+    }
+  ]
+}

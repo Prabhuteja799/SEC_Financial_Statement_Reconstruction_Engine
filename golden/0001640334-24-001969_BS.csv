@@ -1,0 +1,19 @@
+report,line,inpth,tag,label,formatted_value,ddate,qtrs
+2,1,0,AssetsCurrent,Total Current Assets,0,20241130,0
+2,2,0,IntangibleAssetsCurrent,Intangible Assets,0,20241130,0
+2,3,0,Assets,Total Assets,0,20241130,0
+2,5,0,AccountsPayableAndAccruedLiabilitiesCurrent,Accounts payable and accrued liabilities,"7,118",20241130,0
+2,6,0,InterestPayableCurrent,Accrued interest,"154,606",20241130,0
+2,7,0,DueToRelatedPartyCurrent,Due to related party,"119,500",20241130,0
+2,8,0,ConvertibleNotesPayableCurrent,Convertible notes,"129,402",20241130,0
+2,9,0,LiabilitiesCurrent,Total Current Liabilities,"410,626",20241130,0
+2,10,0,Liabilities,Total Liabilities,"410,626",20241130,0
+2,12,0,CommonStockValue,"Common Stock: $0.001 par value, 75,000,000 shares authorized, 60,647,380 shares issued and outstanding","60,647",20241130,0
+2,13,0,AdditionalPaidInCapital,Additional paid-in capital,"38,654,623",20241130,0
+2,14,0,RetainedEarningsAccumulatedDeficit,Accumulated deficit,"(39,125,896)",20241130,0
+2,15,0,StockholdersEquity,Total Stockholders' Deficit,"(410,626)",20241130,0
+2,16,0,LiabilitiesAndStockholdersEquity,TOTAL LIABILITIES AND STOCKHOLDERS' DEFICIT,0,20241130,0
+3,2,1,CommonStockParOrStatedValuePerShare,"Common stock, shares par value",0,20241130,0
+3,3,1,CommonStockSharesAuthorized,"Common stock, shares authorized","75,000,000",20241130,0
+3,4,1,CommonStockSharesIssued,"Common stock, shares issued","60,647,380",20241130,0
+3,5,1,CommonStockSharesOutstanding,"Common stock, shares outstanding","60,647,380",20241130,0

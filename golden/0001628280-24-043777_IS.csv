@@ -1,0 +1,30 @@
+report,line,inpth,tag,label,formatted_value,ddate,qtrs
+4,1,0,Revenues,Revenue,"10,490,900,000",20240930,1
+4,2,0,CostOfRevenue,Cost of Revenue,"10,222,800,000",20240930,1
+4,3,0,GrossProfit,Gross profit,"268,100,000",20240930,1
+4,5,0,LaborAndRelatedExpense,Compensation and employee benefits,"122,900,000",20240930,1
+4,6,0,GeneralAndAdministrativeExpense,General and administrative,"71,800,000",20240930,1
+4,7,0,AssetImpairmentCharges,Asset impairments,"1,200,000",20240930,1
+4,8,0,RestructuringCharges,Restructuring charges,0,20240930,1
+4,9,0,OperatingExpenses,Total operating expenses,"195,800,000",20240930,1
+4,10,0,OperatingIncomeLoss,"Operating Income (Loss), Total","72,300,000",20240930,1
+4,12,0,InterestIncomeExpenseNonoperatingNet,"Interest expense and other financing costs, net","(24,000,000)",20240930,1
+4,13,0,OtherNonoperatingIncomeExpense,"Other income (expense), net","1,300,000",20240930,1
+4,14,0,NonoperatingIncomeExpense,"Total non-operating income (expense), net","(22,600,000)",20240930,1
+4,15,0,IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest,"Income (Loss) from Continuing Operations before Income Taxes, Noncontrolling Interest, Total","49,600,000",20240930,1
+4,16,0,IncomeTaxExpenseBenefit,Income Tax Expense (Benefit),"14,600,000",20240930,1
+4,17,0,ProfitLoss,"Net Income (Loss), Including Portion Attributable to Noncontrolling Interest, Total","35,000,000",20240930,1
+4,18,0,NetIncomeLossAttributableToNoncontrollingInterest,Net Income (Loss) Attributable to Noncontrolling Interest,"1,500,000",20240930,1
+4,19,0,NetIncomeLoss,"Net Income (Loss) Attributable to Parent, Total","33,500,000",20240930,1
+4,20,0,EarningsPerShareBasic,"Earnings Per Share, Basic",0.57,20240930,1
+4,21,0,WeightedAverageNumberOfSharesOutstandingBasic,"Weighted Average Number of Shares Outstanding, Basic","58,800,000",20240930,1
+4,22,0,EarningsPerShareDiluted,Diluted earnings (loss) per common share,0.57,20240930,1
+4,23,0,WeightedAverageNumberOfDilutedSharesOutstanding,Diluted weighted average common shares,"59,200,000",20240930,1
+4,25,0,ProfitLoss,Net income (loss) including noncontrolling interest,"35,000,000",20240930,1
+4,27,0,OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationAdjustmentNetOfTax,Foreign currency translation adjustments,"17,100,000",20240930,1
+4,28,0,OtherComprehensiveIncomeLossCashFlowHedgeGainLossAfterReclassificationAndTax,"Cash flow hedges, net of income tax expense (benefit) of ($2.1) and ($2.2) for the three months ended September 30, 2024 and 2023, respectively, and net of income tax expense (benefit) of ($3.2) and ($2.3) for the nine months ended September 30, 2024 and 2023, respectively","(5,900,000)",20240930,1
+4,29,0,OtherComprehensiveIncomeLossNetOfTax,Total other comprehensive income (loss),"11,200,000",20240930,1
+4,30,0,ComprehensiveIncomeNetOfTaxIncludingPortionAttributableToNoncontrollingInterest,Comprehensive income (loss) including noncontrolling interest,"46,200,000",20240930,1
+4,31,0,ComprehensiveIncomeNetOfTaxAttributableToNoncontrollingInterest,Comprehensive income (loss) attributable to noncontrolling interest,"1,500,000",20240930,1
+4,32,0,ComprehensiveIncomeNetOfTax,Comprehensive income (loss) attributable to World Kinect,"44,700,000",20240930,1
+5,1,1,OtherComprehensiveIncomeLossCashFlowHedgeGainLossReclassificationTax,"Cash flow hedges, net of income tax expense (benefit) of ($2.1) and ($2.2) for the three months ended September 30, 2024 and 2023, respectively, and net of income tax expense (benefit) of ($3.2) and ($2.3) for the nine months ended September 30, 2024 and 2023, respectively","(2,100,000)",20240930,1

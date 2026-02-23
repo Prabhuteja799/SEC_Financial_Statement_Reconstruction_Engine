@@ -1,0 +1,395 @@
+{
+  "adsh": "0001477932-24-008387",
+  "statements": {
+    "BS": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 47,
+        "rows_reconstructed": 47,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 5,
+        "rows_with_conflicting_candidates": 4,
+        "rows": [
+          {
+            "line": 43,
+            "tag": "PreferredStockValue",
+            "candidate_count": 4
+          },
+          {
+            "line": 13,
+            "tag": "PreferredStockParOrStatedValuePerShare",
+            "candidate_count": 5
+          },
+          {
+            "line": 14,
+            "tag": "PreferredStockSharesAuthorized",
+            "candidate_count": 7
+          },
+          {
+            "line": 15,
+            "tag": "PreferredStockSharesIssued",
+            "candidate_count": 7
+          },
+          {
+            "line": 16,
+            "tag": "PreferredStockSharesOutstanding",
+            "candidate_count": 7
+          }
+        ],
+        "conflicts": [
+          {
+            "line": 43,
+            "tag": "PreferredStockValue",
+            "candidate_count": 4,
+            "candidate_unique_values": 2
+          },
+          {
+            "line": 14,
+            "tag": "PreferredStockSharesAuthorized",
+            "candidate_count": 7,
+            "candidate_unique_values": 5
+          },
+          {
+            "line": 15,
+            "tag": "PreferredStockSharesIssued",
+            "candidate_count": 7,
+            "candidate_unique_values": 2
+          },
+          {
+            "line": 16,
+            "tag": "PreferredStockSharesOutstanding",
+            "candidate_count": 7,
+            "candidate_unique_values": 2
+          }
+        ]
+      },
+      "coverage": {
+        "stmt": "BS",
+        "rows_total": 47,
+        "rows_with_values": 47,
+        "rows_missing_values": 0,
+        "coverage_ratio": 1.0,
+        "missing_tags": [],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240930",
+            "qtrs": 0
+          }
+        ],
+        "rule": "single_context"
+      },
+      "subtotal_checks": [
+        {
+          "name": "assets_equals_liabilities_and_equity",
+          "passed": true,
+          "delta": 0.0
+        }
+      ]
+    },
+    "IS": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 20,
+        "rows_reconstructed": 20,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 0,
+        "rows_with_conflicting_candidates": 0,
+        "rows": [],
+        "conflicts": []
+      },
+      "coverage": {
+        "stmt": "IS",
+        "rows_total": 20,
+        "rows_with_values": 20,
+        "rows_missing_values": 0,
+        "coverage_ratio": 1.0,
+        "missing_tags": [],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240930",
+            "qtrs": 1
+          }
+        ],
+        "rule": "single_context"
+      },
+      "subtotal_checks": []
+    },
+    "CF": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 51,
+        "rows_reconstructed": 51,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 0,
+        "rows_with_conflicting_candidates": 0,
+        "rows": [],
+        "conflicts": []
+      },
+      "coverage": {
+        "stmt": "CF",
+        "rows_total": 51,
+        "rows_with_values": 51,
+        "rows_missing_values": 0,
+        "coverage_ratio": 1.0,
+        "missing_tags": [],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": false,
+        "contexts": [
+          {
+            "ddate": "20240930",
+            "qtrs": 3
+          },
+          {
+            "ddate": "20231231",
+            "qtrs": 0
+          },
+          {
+            "ddate": "20240930",
+            "qtrs": 0
+          },
+          {
+            "ddate": "20230930",
+            "qtrs": 3
+          }
+        ],
+        "rule": "cf_duration_plus_begin_end_instant"
+      },
+      "subtotal_checks": []
+    },
+    "EQ": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 31,
+        "rows_reconstructed": 31,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 10,
+        "rows_with_conflicting_candidates": 9,
+        "rows": [
+          {
+            "line": 12,
+            "tag": "SharesIssued",
+            "candidate_count": 2
+          },
+          {
+            "line": 15,
+            "tag": "IssuanceOfCommonSharesForAcquisitionExpensesAmount",
+            "candidate_count": 2
+          },
+          {
+            "line": 17,
+            "tag": "ConversionOfPreferredSharesShares",
+            "candidate_count": 6
+          },
+          {
+            "line": 18,
+            "tag": "ConversionOfPreferredSharesAmount",
+            "candidate_count": 3
+          },
+          {
+            "line": 23,
+            "tag": "AccruedPreferredStockDividends",
+            "candidate_count": 3
+          },
+          {
+            "line": 32,
+            "tag": "DebtConversionConvertedInstrumentSharesIssued1",
+            "candidate_count": 2
+          },
+          {
+            "line": 33,
+            "tag": "DebtConversionConvertedInstrumentAmount1",
+            "candidate_count": 2
+          },
+          {
+            "line": 34,
+            "tag": "ExerciseOfPreFundedWarrantsShares",
+            "candidate_count": 2
+          },
+          {
+            "line": 35,
+            "tag": "ExerciseOfPreFundedWarrantsAmount",
+            "candidate_count": 2
+          },
+          {
+            "line": 41,
+            "tag": "SharesIssued",
+            "candidate_count": 2
+          }
+        ],
+        "conflicts": [
+          {
+            "line": 12,
+            "tag": "SharesIssued",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          },
+          {
+            "line": 15,
+            "tag": "IssuanceOfCommonSharesForAcquisitionExpensesAmount",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          },
+          {
+            "line": 17,
+            "tag": "ConversionOfPreferredSharesShares",
+            "candidate_count": 6,
+            "candidate_unique_values": 6
+          },
+          {
+            "line": 18,
+            "tag": "ConversionOfPreferredSharesAmount",
+            "candidate_count": 3,
+            "candidate_unique_values": 2
+          },
+          {
+            "line": 23,
+            "tag": "AccruedPreferredStockDividends",
+            "candidate_count": 3,
+            "candidate_unique_values": 3
+          },
+          {
+            "line": 32,
+            "tag": "DebtConversionConvertedInstrumentSharesIssued1",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          },
+          {
+            "line": 33,
+            "tag": "DebtConversionConvertedInstrumentAmount1",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          },
+          {
+            "line": 34,
+            "tag": "ExerciseOfPreFundedWarrantsShares",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          },
+          {
+            "line": 41,
+            "tag": "SharesIssued",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          }
+        ]
+      },
+      "coverage": {
+        "stmt": "EQ",
+        "rows_total": 31,
+        "rows_with_values": 31,
+        "rows_missing_values": 0,
+        "coverage_ratio": 1.0,
+        "missing_tags": [],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240930",
+            "qtrs": 0
+          },
+          {
+            "ddate": "20230331",
+            "qtrs": 1
+          },
+          {
+            "ddate": "20230930",
+            "qtrs": 1
+          },
+          {
+            "ddate": "20230630",
+            "qtrs": 1
+          },
+          {
+            "ddate": "20240930",
+            "qtrs": 1
+          },
+          {
+            "ddate": "20240630",
+            "qtrs": 1
+          },
+          {
+            "ddate": "20240331",
+            "qtrs": 1
+          }
+        ],
+        "rule": "eq_multi_context_allowed"
+      },
+      "subtotal_checks": []
+    },
+    "CI": {
+      "structural_parity": {
+        "applicable": false,
+        "passed": true,
+        "reason": "No structure rows in pre.txt for this statement code."
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 0,
+        "rows_with_conflicting_candidates": 0,
+        "rows": [],
+        "conflicts": []
+      },
+      "coverage": {
+        "stmt": "CI",
+        "rows_total": 0,
+        "rows_with_values": 0,
+        "rows_missing_values": 0,
+        "coverage_ratio": 0.0,
+        "missing_tags": [],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [],
+        "rule": "empty"
+      },
+      "subtotal_checks": []
+    }
+  },
+  "summary": {
+    "statements_checked": [
+      "BS",
+      "IS",
+      "CF",
+      "EQ",
+      "CI"
+    ],
+    "rows_total": 149,
+    "rows_with_values": 149,
+    "overall_coverage_ratio": 1.0,
+    "structural_failures": 0,
+    "context_warnings": 1,
+    "duplicate_candidate_rows": 15,
+    "conflicting_candidate_rows": 13,
+    "subtotal_failures": 0,
+    "status": "warn"
+  }
+}

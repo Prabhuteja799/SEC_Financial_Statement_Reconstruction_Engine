@@ -34,6 +34,31 @@ python examples.py
 pytest tests/ -v
 ```
 
+### 6. Run Proof Scorecard (Multi-Filing Validation)
+
+```bash
+python tools/prove_exactness.py --limit 10 --unique-cik --save-per-filing
+```
+
+This creates:
+- `proof_reports/summary_scoreboard.json`
+- `proof_reports/batch_report.json`
+- `proof_reports/filings/*.json` (when `--save-per-filing` is used)
+
+### 7. Create Golden CSVs (Strict Regression Proof)
+
+Export approved statement tables for a filing:
+
+```bash
+python tools/export_golden_csv.py --adsh 0001628280-24-043777 --stmt BS
+```
+
+After manual approval against the SEC filing, add the CSV to `golden/manifest.json`, then run:
+
+```bash
+pytest tests/test_golden_regression.py -v
+```
+
 ## Project Structure
 
 - `src/` - Main engine code
@@ -48,6 +73,8 @@ pytest tests/ -v
 - `quickstart.py` - Quick test to verify installation
 
 - `tests/` - Unit test suite
+- `golden/` - Approved golden CSV outputs + manifest for strict regression proof
+- `tools/` - Proof helpers (`prove_exactness.py`, `export_golden_csv.py`)
 
 - `requirements.txt` - Python dependencies
 
@@ -62,6 +89,7 @@ pytest tests/ -v
 ### Engine
 - **FinancialStatementEngine** - Main orchestration engine
 - **StatementReconstructor** - Rebuilds traditional financial statements
+- Includes table reconstruction, validation, export, and persistence APIs
 
 ### Models
 - **Company** - Company information
@@ -124,4 +152,7 @@ Ensure all files exist in 2024q4/:
 2. ✓ Core modules implemented
 3. ✓ Data models defined
 4. ✓ Parsers developed
-5. Next: Install dependencies and run tests
+5. ✓ Tests passing
+6. ✓ Proof scorecard tooling added
+7. ✓ Golden regression tooling added
+8. Next: Expand approved golden filing coverage (more companies/filings)

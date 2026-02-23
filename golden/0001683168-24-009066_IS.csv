@@ -1,0 +1,28 @@
+report,line,inpth,tag,label,formatted_value,ddate,qtrs
+4,1,0,Revenues,Food sales,715,20240930,1
+4,2,0,CostOfRevenue,Cost of goods sold,"3,070",20240930,1
+4,3,0,GrossProfit,Gross profit,"(2,354)",20240930,1
+4,5,0,DepreciationDepletionAndAmortization,Depreciation and amortization,0,20240930,1
+4,6,0,StockBasedCompensationRelatedParty,Stock based compensation -related party,0,20240930,1
+4,7,0,ShareBasedCompensation,Stock based compensations,0,20240930,1
+4,8,0,LaborAndRelatedExpense,Payroll and other expenses,0,20240930,1
+4,9,0,OperatingLeaseExpense,Rent,"1,091",20240930,1
+4,10,0,ProfessionalAndContractServicesExpense,Consulting and professional fees,"8,083",20240930,1
+4,11,0,ImpairmentOfIntangibleAssetsFinitelived,Impairment of fixed assets,0,20240930,1
+4,12,0,GeneralAndAdministrativeExpense,General and administrative,"1,157",20240930,1
+4,13,0,OperatingExpenses,Total operating expenses,"10,331",20240930,1
+4,14,0,OperatingIncomeLoss,Income (loss) from operations,"(12,685)",20240930,1
+4,16,0,InterestIncomeExpenseNet,Interest (expense),"(25,905)",20240930,1
+4,17,0,GainsLossesOnExtinguishmentOfDebt,Loss on the extinguishment of debt,0,20240930,1
+4,18,0,OtherIncome,Other income,"6,389",20240930,1
+4,19,0,DerivativeGainLossOnDerivativeNet,Change in the fair value of the derivative liability,0,20240930,1
+4,20,0,NonoperatingIncomeExpense,Total other income (expense),"(19,516)",20240930,1
+4,21,0,IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest,Loss before income taxes,"(32,201)",20240930,1
+4,22,0,IncomeTaxExpenseBenefit,Provision for income taxes (benefit),0,20240930,1
+4,23,0,ProfitLoss,Net loss,"(32,201)",20240930,1
+4,24,0,NetIncomeLossAttributableToNoncontrollingInterest,Less: (loss) attributable to non-controlling interests,0,20240930,1
+4,25,0,NetIncomeLoss,"Net loss attributable to Kisses From Italy, Inc.","(32,201)",20240930,1
+4,26,0,EarningsPerShareBasic,Basic (loss) per common share,0,20240930,1
+4,27,0,EarningsPerShareDiluted,Diluted (loss) per common share,0,20240930,1
+4,28,0,WeightedAverageNumberOfSharesOutstandingBasic,Basic,"398,218,525",20240930,1
+4,29,0,WeightedAverageNumberOfDilutedSharesOutstanding,Diluted,"398,218,525",20240930,1

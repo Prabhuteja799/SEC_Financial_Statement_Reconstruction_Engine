@@ -1,0 +1,33 @@
+report,line,inpth,tag,label,formatted_value,ddate,qtrs
+5,12,0,StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,"Beginning balance, value","(610,962)",20221231,0
+5,13,0,SharesOutstanding,"Beginning balance, shares","189,216,582",20221231,0
+5,14,0,FootingErrorAdjustment,Footing error adjustment,"32,985",20240331,1
+5,15,0,AdjustmentsToAdditionalPaidInCapitalOther,Share conversion error and reclassification adjustments,,20240331,1
+5,16,0,ConversionOfConvertibleNotesAndintoCommonStock,Conversion of convertible notes and interest into common stock,"21,751",20240930,1
+5,17,0,ConversionOfConvertibleNotesAndintoCommonStockShares,"Conversion of convertible notes and interest into common stock, shares","34,829,769",20240930,1
+5,18,0,IssuanceOfSharesOnCompanysEquityLineOfCredit,Issuance of shares on the Company's equity line of credit,"32,415",20240331,1
+5,19,0,IssuanceOfSharesOnCompanysEquityLineOfCreditShares,"Issuance of shares on the Company's equity line of credit, shares","19,268,256",20240331,1
+5,20,0,CommonStockIssuedForAccountsPayable,Common stock issued for accounts payable,"15,050",20230331,1
+5,21,0,CommonStockIssuedForAccountsPayableShares,"Common stock issued for accounts payable, shares","451,952",20230331,1
+5,22,0,StockIssuedDuringPeriodValueShareBasedCompensation,Stock based compensation,"206,700",20230331,1
+5,23,0,StockIssuedDuringPeriodSharesShareBasedCompensation,"Stock based compensation, shares","6,000,000",20230331,1
+5,24,0,IssuanceOfCommonStockAsFinancingCommitmentSharesValue,Issuance of common stock as financing commitment shares,"198,000",20230331,1
+5,25,0,IssuanceOfCommonStockAsFinancingCommitmentSharesShares,"Issuance of common stock as financing commitment shares, shares","6,000,000",20230331,1
+5,26,0,SaleOfCommonSharesPursuantToCompanysEquityLineOfCredit,Sale of common shares pursuant to the Company's equity line of credit,"50,001",20230630,1
+5,27,0,SaleOfCommonSharesPursuantToCompanysEquityLineOfCreditShares,"Sale of common shares pursuant to the Company's equity line of credit, shares","1,501,502",20230630,1
+5,28,0,IssuanceOfPreferredSharesToPayAccruedInterest,Issuance of preferred shares to pay accrued interest,"20,000",20230630,1
+5,29,0,IssuanceOfPreferredSharesToPayAccruedInterestShares,"Issuance of preferred shares to pay accrued interest, shares","20,000",20230630,1
+5,30,0,ConversionOfConvertibleNotesAndAccruedInterestIntoCommonStockValue,Conversion of convertible notes and accrued interest into common stock,"381,860",20230331,1
+5,31,0,ConversionOfConvertibleNotesAndAccruedInterestIntoCommonStockShares,"Conversion of convertible notes and accrued interest into common stock, shares","8,552,000",20230331,1
+5,32,0,NetIncomeLossAttributableToNoncontrollingInterest1,"Non-controlling interest, net income (loss)","35,937",20230930,1
+5,33,0,ProfitLoss1,Net loss,"(32,201)",20240930,1
+5,34,0,NetIncomeLossAttributableToNoncontrollingInterest,Net Income (Loss) Attributable to Noncontrolling Interest,0,20240930,1
+5,35,0,StockBasedCompensationForServicesValue,Stock based compensation for services,"66,500",20230630,1
+5,36,0,StockBasedCompensationForServicesShares,"Stock based compensation for services, shares","1,750,000",20230630,1
+5,37,0,IssuanceOfWarrantsForFinancing,Issuance of warrants for financing,"56,630",20230630,1
+5,38,0,StockBasedCompensationForServicesRelatedParty,Stock based compensation for- services related party,"1,215,000",20230930,1
+5,39,0,StockBasedCompensationForServicesRelatedPartyShares,"Stock based compensation for- services related party, shares","30,000,000",20230930,1
+5,40,0,WarrantExercisesForCommitmentFees,Warrant exercises for commitment fees,"581,219",20230930,1
+5,41,0,WarrantExercisesForCommitmentFeesShares,"Warrant exercises for commitment fees, shares","16,880,768",20230930,1
+5,42,0,StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,"Ending balance, value","(974,517)",20240930,0
+5,43,0,SharesOutstanding,"Ending balance, shares","407,750,100",20240930,0

@@ -1,0 +1,338 @@
+{
+  "adsh": "0001493152-24-052611",
+  "statements": {
+    "BS": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 51,
+        "rows_reconstructed": 51,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 4,
+        "rows_with_conflicting_candidates": 4,
+        "rows": [
+          {
+            "line": 33,
+            "tag": "AccruedLiabilitiesCurrent",
+            "candidate_count": 2
+          },
+          {
+            "line": 49,
+            "tag": "PreferredStockValue",
+            "candidate_count": 2
+          },
+          {
+            "line": 10,
+            "tag": "PreferredStockSharesIssued",
+            "candidate_count": 2
+          },
+          {
+            "line": 11,
+            "tag": "PreferredStockSharesOutstanding",
+            "candidate_count": 2
+          }
+        ],
+        "conflicts": [
+          {
+            "line": 33,
+            "tag": "AccruedLiabilitiesCurrent",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          },
+          {
+            "line": 49,
+            "tag": "PreferredStockValue",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          },
+          {
+            "line": 10,
+            "tag": "PreferredStockSharesIssued",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          },
+          {
+            "line": 11,
+            "tag": "PreferredStockSharesOutstanding",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          }
+        ]
+      },
+      "coverage": {
+        "stmt": "BS",
+        "rows_total": 51,
+        "rows_with_values": 47,
+        "rows_missing_values": 4,
+        "coverage_ratio": 0.9215686274509803,
+        "missing_tags": [
+          "OperatingLeaseRightOfUseAsset",
+          "OperatingLeaseLiabilityCurrent",
+          "OperatingLeaseLiabilityNoncurrent",
+          "CommitmentsAndContingencies"
+        ],
+        "expected_missing_tags": [
+          "CommitmentsAndContingencies"
+        ],
+        "unexpected_missing_tags": [
+          "OperatingLeaseRightOfUseAsset",
+          "OperatingLeaseLiabilityCurrent",
+          "OperatingLeaseLiabilityNoncurrent"
+        ]
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240331",
+            "qtrs": 0
+          }
+        ],
+        "rule": "single_context"
+      },
+      "subtotal_checks": [
+        {
+          "name": "assets_equals_liabilities_and_equity",
+          "passed": true,
+          "delta": 0.0
+        }
+      ]
+    },
+    "IS": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 23,
+        "rows_reconstructed": 23,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 0,
+        "rows_with_conflicting_candidates": 0,
+        "rows": [],
+        "conflicts": []
+      },
+      "coverage": {
+        "stmt": "IS",
+        "rows_total": 23,
+        "rows_with_values": 22,
+        "rows_missing_values": 1,
+        "coverage_ratio": 0.9565217391304348,
+        "missing_tags": [
+          "IncomeTaxExpenseBenefit"
+        ],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": [
+          "IncomeTaxExpenseBenefit"
+        ]
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240331",
+            "qtrs": 1
+          }
+        ],
+        "rule": "single_context"
+      },
+      "subtotal_checks": []
+    },
+    "CF": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 46,
+        "rows_reconstructed": 46,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 0,
+        "rows_with_conflicting_candidates": 0,
+        "rows": [],
+        "conflicts": []
+      },
+      "coverage": {
+        "stmt": "CF",
+        "rows_total": 46,
+        "rows_with_values": 38,
+        "rows_missing_values": 8,
+        "coverage_ratio": 0.8260869565217391,
+        "missing_tags": [
+          "IssuanceOfStockAndWarrantsForServicesOrClaims",
+          "IncreaseDecreaseInOriginalIssueDiscountPromissoryNote",
+          "ProceedsFromRepaymentsOfNotesPayable",
+          "ProceedsFromRepaymentsOfStockReceivable",
+          "ProceedsFromIssuanceOfCommonStock",
+          "ProceedsFromIssuanceOfCommonStockForFinancingCost",
+          "IncomeTaxesPaidNet",
+          "InterestPaidNet"
+        ],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": [
+          "IssuanceOfStockAndWarrantsForServicesOrClaims",
+          "IncreaseDecreaseInOriginalIssueDiscountPromissoryNote",
+          "ProceedsFromRepaymentsOfNotesPayable",
+          "ProceedsFromRepaymentsOfStockReceivable",
+          "ProceedsFromIssuanceOfCommonStock",
+          "ProceedsFromIssuanceOfCommonStockForFinancingCost",
+          "IncomeTaxesPaidNet",
+          "InterestPaidNet"
+        ]
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240331",
+            "qtrs": 1
+          },
+          {
+            "ddate": "20240331",
+            "qtrs": 0
+          }
+        ],
+        "rule": "cf_duration_plus_begin_end_instant"
+      },
+      "subtotal_checks": []
+    },
+    "EQ": {
+      "structural_parity": {
+        "applicable": true,
+        "passed": true,
+        "rows_expected": 19,
+        "rows_reconstructed": 19,
+        "order_match": true
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 4,
+        "rows_with_conflicting_candidates": 3,
+        "rows": [
+          {
+            "line": 11,
+            "tag": "SharesOutstanding",
+            "candidate_count": 2
+          },
+          {
+            "line": 13,
+            "tag": "StockIssuedDuringPeriodSharesNewIssues",
+            "candidate_count": 2
+          },
+          {
+            "line": 27,
+            "tag": "SharesOutstanding",
+            "candidate_count": 2
+          },
+          {
+            "line": 11,
+            "tag": "SharesIssuedPricePerShare",
+            "candidate_count": 3
+          }
+        ],
+        "conflicts": [
+          {
+            "line": 11,
+            "tag": "SharesOutstanding",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          },
+          {
+            "line": 13,
+            "tag": "StockIssuedDuringPeriodSharesNewIssues",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          },
+          {
+            "line": 27,
+            "tag": "SharesOutstanding",
+            "candidate_count": 2,
+            "candidate_unique_values": 2
+          }
+        ]
+      },
+      "coverage": {
+        "stmt": "EQ",
+        "rows_total": 19,
+        "rows_with_values": 19,
+        "rows_missing_values": 0,
+        "coverage_ratio": 1.0,
+        "missing_tags": [],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240331",
+            "qtrs": 0
+          },
+          {
+            "ddate": "20230331",
+            "qtrs": 1
+          },
+          {
+            "ddate": "20240331",
+            "qtrs": 1
+          }
+        ],
+        "rule": "eq_multi_context_allowed"
+      },
+      "subtotal_checks": []
+    },
+    "CI": {
+      "structural_parity": {
+        "applicable": false,
+        "passed": true,
+        "reason": "No structure rows in pre.txt for this statement code."
+      },
+      "duplicate_candidates": {
+        "rows_with_multiple_candidates": 0,
+        "rows_with_conflicting_candidates": 0,
+        "rows": [],
+        "conflicts": []
+      },
+      "coverage": {
+        "stmt": "CI",
+        "rows_total": 6,
+        "rows_with_values": 6,
+        "rows_missing_values": 0,
+        "coverage_ratio": 1.0,
+        "missing_tags": [],
+        "expected_missing_tags": [],
+        "unexpected_missing_tags": []
+      },
+      "context_coherence": {
+        "passed": true,
+        "contexts": [
+          {
+            "ddate": "20240331",
+            "qtrs": 1
+          }
+        ],
+        "rule": "single_context"
+      },
+      "subtotal_checks": []
+    }
+  },
+  "summary": {
+    "statements_checked": [
+      "BS",
+      "IS",
+      "CF",
+      "EQ",
+      "CI"
+    ],
+    "rows_total": 145,
+    "rows_with_values": 132,
+    "overall_coverage_ratio": 0.9103448275862069,
+    "structural_failures": 0,
+    "context_warnings": 0,
+    "duplicate_candidate_rows": 8,
+    "conflicting_candidate_rows": 7,
+    "subtotal_failures": 0,
+    "status": "warn"
+  }
+}

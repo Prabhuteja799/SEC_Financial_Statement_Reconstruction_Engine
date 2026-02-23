@@ -43,6 +43,12 @@ SEC_Financial_Statement_Reconstruction_Engine/
 │       ├── __init__.py
 │       └── postgres_store.py       # PostgreSQL persistence for outputs
 ├── tests/                    # Unit tests
+├── tools/                    # Proof helpers (scorecards + golden export)
+│   ├── prove_exactness.py
+│   └── export_golden_csv.py
+├── golden/                   # Approved golden outputs + manifest
+│   ├── manifest.json
+│   └── *.csv
 ├── 2024q4/                   # Sample XBRL data files
 │   ├── sub.txt              # Submission index
 │   ├── num.txt              # Numeric facts
@@ -268,6 +274,47 @@ db_config = {
 result = engine.persist_filing_to_postgres(adsh, db_config=db_config, schema="public")
 print(result)
 ```
+
+## Proving Exactness (Validation Evidence Workflow)
+
+To support the specification requirement of reconstructing statements "exactly as presented,"
+the project now includes a proof workflow:
+
+1. Run core/unit tests
+2. Run multi-filing validation scorecards
+3. Create approved "golden" CSVs for specific filings/statements
+4. Run golden regression tests to detect future mismatches
+
+### Commands
+
+```bash
+# Core tests
+pytest tests/ -v
+
+# Multi-filing proof scorecard
+python tools/prove_exactness.py --limit 10 --unique-cik --save-per-filing
+
+# Export candidate golden files (example)
+python tools/export_golden_csv.py --adsh 0001628280-24-043777 --stmt BS
+
+# Golden regression (after approving CSVs and updating golden/manifest.json)
+pytest tests/test_golden_regression.py -v
+```
+
+Generated proof artifacts:
+- `proof_reports/summary_scoreboard.json`
+- `proof_reports/batch_report.json`
+- `proof_reports/filings/*.json` (if `--save-per-filing` is used)
+
+### Current Verification Snapshot (Local)
+
+- Core test suite: `22 passed`
+- Golden regression: passing for `13` approved statement tables across `3` filings
+- Multi-filing proof scorecard example run (`10` filings): `pass=3`, `warn=6`, `fail=1`
+
+This supports a strong claim of multi-filing correctness with regression protection, while still
+being honest that universal coverage across all SEC filings requires continued expansion of the
+golden set and proof runs.
 
 ## Data Models
 
