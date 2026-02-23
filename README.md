@@ -70,7 +70,7 @@ SEC_Financial_Statement_Reconstruction_Engine/
 
 1. Clone or extract the project:
 ```bash
-cd /Users/prabhutejachintala/Documents/SEC_Financial_Statement_Reconstruction_Engine
+https://github.com/Prabhuteja799/SEC_Financial_Statement_Reconstruction_Engine.git
 ```
 
 2. Create virtual environment:
@@ -443,11 +443,11 @@ To contribute improvements:
 
 ## License
 
-[Specify your license here]
+
 
 ## Contact
 
-[Your contact information]
+
 
 ## References
 
